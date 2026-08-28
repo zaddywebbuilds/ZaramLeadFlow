@@ -1410,6 +1410,63 @@ footer {
   .ethics-banner    { flex-direction: column; gap: 12px; }
   footer { flex-direction: column; text-align: center; }
 }
+
+/* ── Hero video strip ─────────────────────────────────────────────── */
+.hero-video-strip {
+  margin-top: 36px;
+  width: 100%;
+  max-width: 560px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  background: #000;
+  cursor: pointer;
+}
+.hero-video-strip video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+.hvs-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4,13,28,0.38);
+  transition: background 0.2s;
+  border-radius: 12px;
+}
+.hero-video-strip.playing .hvs-overlay { display: none; }
+.hero-video-strip:hover .hvs-overlay { background: rgba(4,13,28,0.22); }
+.hvs-play {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.hero-video-strip:hover .hvs-play {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(26,107,255,0.4);
+}
+.hvs-play svg { margin-left: 4px; }
+.hvs-label {
+  position: absolute;
+  bottom: 12px; left: 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.8px; text-transform: uppercase;
+  color: #fff;
+  background: rgba(26,107,255,0.85);
+  backdrop-filter: blur(6px);
+  padding: 4px 11px;
+  border-radius: 100px;
+}
 </style>
 <script type="application/ld+json">
 {
@@ -1460,6 +1517,19 @@ footer {
     <a class="btn-ghost" href="#how">
       See how it works ↓
     </a>
+  </div>
+
+  <!-- Hero video strip -->
+  <div class="hero-video-strip" id="heroVid">
+    <video id="heroVidEl" preload="metadata" poster="assets/screen-2-insert.jpg" playsinline>
+      <source src="assets/demo.mp4" type="video/mp4">
+    </video>
+    <div class="hvs-overlay" id="heroVidOverlay">
+      <div class="hvs-play">
+        <svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M1 1.5l16 8.5-16 8.5V1.5z" fill="#1A6BFF"/></svg>
+      </div>
+      <div class="hvs-label">Watch it in action</div>
+    </div>
   </div>
 
   <div class="hero-trust-strip">

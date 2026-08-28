@@ -2583,7 +2583,7 @@ footer {
     <div class="pricing-card reveal reveal-delay-2">
       <div class="pricing-badge">Monthly Access</div>
       <div class="pricing-amount"><span>&#8358;</span>5,000</div>
-      <div class="pricing-period">per month &nbsp;&middot;&nbsp; billed via Paystack</div>
+      <div class="pricing-period">per month &nbsp;&middot;&nbsp; ~&#8358;5,178 incl. tax &nbsp;&middot;&nbsp; billed via Paystack</div>
 
       <ul class="pricing-features">
         <li><span class="pf-check">&#10003;</span> AI-written openers for every lead</li>
@@ -2591,13 +2591,15 @@ footer {
         <li><span class="pf-check">&#10003;</span> Unlimited message generation</li>
         <li><span class="pf-check">&#10003;</span> Reply tracking &amp; send logs</li>
         <li><span class="pf-check">&#10003;</span> Chrome extension &mdash; works on any PC</li>
-        <li><span class="pf-check">&#10003;</span> License key emailed instantly</li>
+        <li><span class="pf-check">&#10003;</span> License key + setup guide emailed instantly</li>
+        <li><span class="pf-check">&#10003;</span> <strong style="color:#E8B923;">7-day money-back guarantee</strong></li>
+        <li><span class="pf-check">&#10003;</span> Monthly subscription &mdash; cancel anytime by email</li>
       </ul>
 
       <button class="paystack-btn" onclick="openPayModal()">
         Get ZaramLeadFlow &mdash; &#8358;5,000/mo &rarr;
       </button>
-      <p class="pricing-guarantee">Secure payment via Paystack &nbsp;&middot;&nbsp; License delivered to your email</p>
+      <p class="pricing-guarantee">Secure payment via Paystack &nbsp;&middot;&nbsp; 7-day refund &nbsp;&middot;&nbsp; Cancel anytime: johnogbonnae@gmail.com</p>
     </div>
   </div>
 </section>
@@ -2810,14 +2812,15 @@ function startPaystack() {
       callback: function(response) {
         closePayModal();
         resetBtn();
-        var cta = document.getElementById('cta');
-        if (cta) {
-          cta.innerHTML = '<div class="container" style="text-align:center;padding:80px 20px">' +
-            '<div style="font-size:52px;margin-bottom:20px">\u2705</div>' +
-            '<h2 style="font-family:Syne,sans-serif;font-size:28px;color:#E8B923;margin-bottom:12px">Payment received!</h2>' +
-            '<p style="color:#9aa0ae;font-size:16px;max-width:420px;margin:0 auto">Your license key is heading to <strong style="color:#fff">' + email + '</strong>.<br><br>Check spam if it does not arrive within 2 minutes.</p>' +
-            '</div>';
-        }
+        document.body.innerHTML = '<div style="min-height:100vh;background:#040D1C;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;text-align:center;padding:40px">' +
+          '<div>' +
+          '<div style="font-size:52px;margin-bottom:20px">&#9989;</div>' +
+          '<h2 style="font-family:Syne,sans-serif;font-size:28px;color:#E8B923;margin-bottom:12px">Payment received!</h2>' +
+          '<p style="color:#9aa0ae;font-size:16px;max-width:420px;margin:0 auto 24px">License key is on its way to <strong style="color:#fff">' + email + '</strong>.<br>Taking you to the setup guide&#8230;</p>' +
+          '<div style="width:40px;height:40px;border:3px solid #1A6BFF;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto"></div>' +
+          '<style>@keyframes spin{to{transform:rotate(360deg)}}</style>' +
+          '</div></div>';
+        setTimeout(function(){ window.location.href = 'setup.html'; }, 2500);
       }
     });
     handler.openIframe();

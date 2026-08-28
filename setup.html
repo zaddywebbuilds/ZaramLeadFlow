@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup Guide — ZaramLeadFlow</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#040D1C;--surface:#081628;--card:#102240;
+  --accent:#1A6BFF;--accent-lt:#5B9CFF;
+  --success:#E8B923;--text:#e2e8f0;--muted:#9aa0ae;
+}
+body{background:var(--void);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;min-height:100vh;}
+a{color:var(--accent-lt);}
+
+/* Nav */
+nav{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:0;background:rgba(4,13,28,0.92);backdrop-filter:blur(10px);z-index:100;}
+.nav-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;}
+.nav-logo span{color:var(--success);}
+.nav-badge{background:rgba(232,185,35,0.15);border:1px solid rgba(232,185,35,0.3);color:var(--success);font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:4px 12px;border-radius:100px;}
+
+/* Hero */
+.setup-hero{text-align:center;padding:60px 24px 40px;max-width:680px;margin:0 auto;}
+.setup-eyebrow{display:inline-block;background:rgba(26,107,255,0.12);border:1px solid rgba(26,107,255,0.25);color:var(--accent-lt);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:20px;}
+.setup-title{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;line-height:1.15;margin-bottom:12px;}
+.setup-title span{color:var(--success);}
+.setup-sub{color:var(--muted);font-size:16px;max-width:500px;margin:0 auto 32px;}
+.download-btn{display:inline-flex;align-items:center;gap:10px;background:var(--success);color:#000;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;padding:16px 32px;border-radius:10px;text-decoration:none;box-shadow:0 6px 24px rgba(232,185,35,0.35);transition:transform 0.15s,box-shadow 0.15s;}
+.download-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(232,185,35,0.45);}
+.download-note{margin-top:10px;font-size:12px;color:var(--muted);}
+
+/* Steps */
+.steps-section{max-width:760px;margin:0 auto;padding:20px 24px 80px;}
+.steps-header{text-align:center;margin-bottom:40px;}
+.steps-header h2{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;margin-bottom:8px;}
+.steps-header p{color:var(--muted);font-size:15px;}
+
+.step-card{background:var(--card);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:28px 28px;margin-bottom:20px;position:relative;}
+.step-num{position:absolute;top:-14px;left:28px;background:var(--accent);color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;padding:4px 14px;border-radius:100px;letter-spacing:0.5px;}
+.step-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin:6px 0 10px;}
+.step-body{color:var(--muted);font-size:14px;margin-bottom:18px;line-height:1.7;}
+.step-body strong{color:var(--text);}
+.step-img{width:100%;border-radius:10px;overflow:hidden;background:var(--surface);border:1px solid rgba(255,255,255,0.08);}
+
+/* SVG mockups inside step-img */
+.step-img svg{width:100%;height:auto;display:block;}
+
+/* Tip box */
+.tip{background:rgba(26,107,255,0.08);border:1px solid rgba(26,107,255,0.2);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--accent-lt);margin-top:12px;display:flex;gap:10px;align-items:flex-start;}
+.tip-icon{flex-shrink:0;font-size:16px;}
+
+/* Warning box */
+.warn{background:rgba(232,185,35,0.08);border:1px solid rgba(232,185,35,0.2);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--success);margin-top:12px;display:flex;gap:10px;align-items:flex-start;}
+
+/* Done card */
+.done-card{background:linear-gradient(135deg,rgba(26,107,255,0.12),rgba(232,185,35,0.08));border:1px solid rgba(232,185,35,0.25);border-radius:16px;padding:40px 32px;text-align:center;margin-top:32px;}
+.done-icon{font-size:48px;margin-bottom:16px;}
+.done-card h2{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--success);margin-bottom:10px;}
+.done-card p{color:var(--muted);font-size:15px;max-width:420px;margin:0 auto 24px;}
+.support-link{display:inline-block;border:1px solid rgba(255,255,255,0.15);padding:10px 24px;border-radius:8px;font-size:14px;color:var(--text);text-decoration:none;}
+.support-link:hover{border-color:var(--accent);color:var(--accent-lt);}
+
+@media(max-width:600px){
+  .setup-title{font-size:26px;}
+  nav{padding:14px 16px;}
+  .steps-section{padding:20px 16px 60px;}
+  .step-card{padding:24px 18px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Zaram <span>LeadFlow</span></div>
+  <div class="nav-badge">&#10003; Setup Guide</div>
+</nav>
+
+<div class="setup-hero">
+  <div class="setup-eyebrow">You&#8217;re in &mdash; let&#8217;s get you set up</div>
+  <h1 class="setup-title">Install ZaramLeadFlow<br>in <span>under 3 minutes.</span></h1>
+  <p class="setup-sub">This page walks you through every step. Even if you&#8217;ve never installed a Chrome extension manually before, you&#8217;ve got this.</p>
+
+  <a class="download-btn" id="downloadBtn" href="DRIVE_LINK_HERE" target="_blank" rel="noopener">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Download ZaramLeadFlow
+  </a>
+  <div class="download-note">ZIP file &middot; Chrome only &middot; No installer needed</div>
+</div>
+
+<div class="steps-section">
+  <div class="steps-header">
+    <h2>Installation steps</h2>
+    <p>Follow these in order. Takes about 2 minutes.</p>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="step-card">
+    <div class="step-num">Step 1</div>
+    <div class="step-title">Download &amp; unzip the file</div>
+    <div class="step-body">
+      Click the <strong>Download ZaramLeadFlow</strong> button above. You&#8217;ll get a <strong>.zip file</strong>.<br><br>
+      Once downloaded, <strong>right-click the zip file</strong> and choose <strong>&#8220;Extract All&#8221;</strong> (Windows) or double-click it (Mac). This creates a folder called <strong>ZaramLeadFlow-Package</strong>.
+      <br><br>Remember where you save this folder &mdash; you&#8217;ll need it in Step 3.
+    </div>
+    <div class="step-img">
+      <svg viewBox="0 0 680 120" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Arial,sans-serif">
+        <rect width="680" height="120" fill="#0D1F38"/>
+        <!-- Zip file icon -->
+        <rect x="40" y="20" width="60" height="76" fill="#1A3A6A" rx="6" stroke="#2A5AB0" stroke-width="1"/>
+        <rect x="40" y="20" width="60" height="24" fill="#2A5AB0" rx="6"/>
+        <rect x="40" y="38" width="60" height="6" fill="#2A5AB0"/>
+        <text x="70" y="37" font-size="9" fill="#fff" text-anchor="middle" font-weight="700">ZIP</text>
+        <text x="70" y="65" font-size="7" fill="#9AA0AE" text-anchor="middle">ZaramLeadFlow</text>
+        <text x="70" y="76" font-size="7" fill="#9AA0AE" text-anchor="middle">.zip</text>
+        <!-- Arrow -->
+        <text x="120" y="65" font-size="22" fill="#4B5563">&#8594;</text>
+        <!-- Right-click menu -->
+        <rect x="150" y="18" width="160" height="90" fill="#1E293B" rx="6" stroke="#334155" stroke-width="1"/>
+        <rect x="150" y="18" width="160" height="24" fill="#1E293B" rx="6"/>
+        <text x="162" y="34" font-size="9" fill="#9AA0AE">ZaramLeadFlow.zip</text>
+        <line x1="150" y1="42" x2="310" y2="42" stroke="#334155" stroke-width="1"/>
+        <text x="162" y="57" font-size="9" fill="#CBD5E1">Open</text>
+        <rect x="150" y="62" width="160" height="20" fill="#1A6BFF" rx="0"/>
+        <text x="162" y="76" font-size="9" fill="#fff" font-weight="600">&#10003; Extract All...</text>
+        <text x="162" y="97" font-size="9" fill="#CBD5E1">Send to</text>
+        <!-- Arrow -->
+        <text x="325" y="65" font-size="22" fill="#4B5563">&#8594;</text>
+        <!-- Folder icon -->
+        <rect x="360" y="28" width="70" height="56" fill="#1A3A6A" rx="6" stroke="#2A5AB0" stroke-width="1"/>
+        <rect x="360" y="22" width="32" height="12" fill="#2A5AB0" rx="4"/>
+        <text x="395" y="62" font-size="7.5" fill="#9AA0AE" text-anchor="middle">ZaramLeadFlow</text>
+        <text x="395" y="74" font-size="7.5" fill="#9AA0AE" text-anchor="middle">-Package</text>
+        <text x="395" y="44" font-size="18" fill="#E8B923" text-anchor="middle">&#128193;</text>
+        <!-- Label -->
+        <text x="450" y="55" font-size="11" fill="#E8B923" font-weight="700">Folder saved!</text>
+        <text x="450" y="70" font-size="9" fill="#9AA0AE">Remember where</text>
+        <text x="450" y="82" font-size="9" fill="#9AA0AE">you put this.</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step-card">
+    <div class="step-num">Step 2</div>
+    <div class="step-title">Open Chrome Extensions &amp; turn on Developer Mode</div>
+    <div class="step-body">
+      Open <strong>Google Chrome</strong>. In the address bar at the top, type exactly:<br><br>
+      <code style="background:#0a1628;border:1px solid #1a3a6a;padding:6px 14px;border-radius:6px;font-size:14px;color:#5B9CFF;display:inline-block;margin:4px 0 12px;">chrome://extensions</code><br><br>
+      Press <strong>Enter</strong>. You&#8217;ll see the Extensions page. In the <strong>top-right corner</strong>, you&#8217;ll see a toggle that says <strong>&#8220;Developer mode&#8221;</strong>. Switch it <strong>ON</strong> (it turns blue).
+    </div>
+    <div class="step-img">
+      <svg viewBox="0 0 680 140" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Arial,sans-serif">
+        <rect width="680" height="140" fill="#F1F3F4"/>
+        <!-- Chrome address bar -->
+        <rect x="0" y="0" width="680" height="36" fill="#DEE1E6"/>
+        <rect x="60" y="8" width="420" height="20" fill="#fff" rx="10" stroke="#BDC1C6" stroke-width="1"/>
+        <text x="270" y="22" font-size="11" fill="#1A73E8" text-anchor="middle" font-weight="500">chrome://extensions</text>
+        <!-- Extensions page content -->
+        <rect x="0" y="36" width="680" height="104" fill="#F1F3F4"/>
+        <text x="24" y="64" font-size="16" fill="#202124" font-weight="700">Extensions</text>
+        <!-- Developer mode toggle - OFF state (before) -->
+        <rect x="400" y="50" width="130" height="28" fill="#fff" rx="6" stroke="#BDC1C6" stroke-width="1"/>
+        <text x="420" y="68" font-size="10" fill="#5F6368">Developer mode</text>
+        <rect x="498" y="57" width="26" height="14" fill="#BDC1C6" rx="7"/>
+        <circle cx="505" cy="64" r="5" fill="#fff"/>
+        <text x="466" y="96" font-size="9" fill="#BDC1C6" text-anchor="middle">OFF</text>
+        <!-- Arrow -->
+        <text x="550" y="68" font-size="22" fill="#4B5563">&#8594;</text>
+        <!-- Developer mode toggle - ON state (after) -->
+        <rect x="570" y="50" width="96" height="28" fill="#E8F0FE" rx="6" stroke="#1A73E8" stroke-width="1.5"/>
+        <text x="578" y="68" font-size="10" fill="#1A73E8" font-weight="600">Dev mode</text>
+        <rect x="626" y="57" width="26" height="14" fill="#1A73E8" rx="7"/>
+        <circle cx="643" cy="64" r="5" fill="#fff"/>
+        <text x="619" y="96" font-size="9" fill="#1A73E8" text-anchor="middle" font-weight="600">ON &#10003;</text>
+      </svg>
+    </div>
+    <div class="warn">
+      <span class="tip-icon">&#9888;</span>
+      <span>You must turn Developer mode ON before the next step will work. The toggle is small &mdash; look for it in the top-right of the Extensions page.</span>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step-card">
+    <div class="step-num">Step 3</div>
+    <div class="step-title">Load the extension from your folder</div>
+    <div class="step-body">
+      Still on the Extensions page, click the button that says <strong>&#8220;Load unpacked&#8221;</strong>. A file picker will open.<br><br>
+      Navigate to the <strong>ZaramLeadFlow-Package</strong> folder you extracted in Step 1. Click on the folder to select it, then click <strong>&#8220;Select Folder&#8221;</strong> (or &#8220;Open&#8221; on Mac).
+    </div>
+    <div class="step-img">
+      <svg viewBox="0 0 680 130" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Arial,sans-serif">
+        <rect width="680" height="130" fill="#F1F3F4"/>
+        <!-- Extensions page with Load unpacked button -->
+        <rect x="0" y="0" width="680" height="36" fill="#DEE1E6"/>
+        <rect x="60" y="8" width="420" height="20" fill="#fff" rx="10" stroke="#BDC1C6" stroke-width="1"/>
+        <text x="270" y="22" font-size="11" fill="#1A73E8" text-anchor="middle">chrome://extensions</text>
+        <text x="24" y="58" font-size="14" fill="#202124" font-weight="700">Extensions</text>
+        <!-- Load unpacked button (highlighted) -->
+        <rect x="20" y="68" width="120" height="32" fill="#1A73E8" rx="4"/>
+        <text x="80" y="88" font-size="10" fill="#fff" text-anchor="middle" font-weight="600">Load unpacked</text>
+        <!-- Arrow -->
+        <text x="156" y="90" font-size="22" fill="#4B5563">&#8594;</text>
+        <!-- File picker mockup -->
+        <rect x="190" y="40" width="300" height="82" fill="#fff" rx="6" stroke="#BDC1C6" stroke-width="1"/>
+        <rect x="190" y="40" width="300" height="22" fill="#ECECEC" rx="6"/>
+        <rect x="190" y="56" width="300" height="6" fill="#ECECEC"/>
+        <text x="340" y="56" font-size="9" fill="#5F6368" text-anchor="middle">Select the folder</text>
+        <!-- Folder item highlighted -->
+        <rect x="200" y="72" width="270" height="22" fill="#E8F0FE" rx="4" stroke="#1A73E8" stroke-width="1"/>
+        <text x="216" y="87" font-size="9" fill="#1A73E8">&#128193; ZaramLeadFlow-Package</text>
+        <!-- Select folder button -->
+        <rect x="402" y="100" width="80" height="18" fill="#1A73E8" rx="3"/>
+        <text x="442" y="113" font-size="8" fill="#fff" text-anchor="middle">Select Folder</text>
+        <!-- Arrow -->
+        <text x="506" y="90" font-size="22" fill="#4B5563">&#8594;</text>
+        <!-- Extension card appears -->
+        <rect x="538" y="50" width="120" height="72" fill="#fff" rx="8" stroke="#BDC1C6" stroke-width="1"/>
+        <rect x="548" y="60" width="40" height="40" fill="#1A6BFF" rx="6"/>
+        <text x="568" y="85" font-size="8" fill="#fff" text-anchor="middle" font-weight="800">ZLF</text>
+        <text x="598" y="72" font-size="8" fill="#202124" font-weight="600">ZaramLeadFlow</text>
+        <text x="598" y="84" font-size="7" fill="#5F6368">Installed &#10003;</text>
+        <rect x="548" y="104" width="30" height="12" fill="#1A73E8" rx="6"/>
+        <circle cx="570" cy="110" r="4" fill="#fff"/>
+      </svg>
+    </div>
+    <div class="tip">
+      <span class="tip-icon">&#128161;</span>
+      <span>Make sure you select the <strong>folder</strong> itself, not a file inside it. The folder is called <strong>ZaramLeadFlow-Package</strong>.</span>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step-card">
+    <div class="step-num">Step 4</div>
+    <div class="step-title">Pin it to your Chrome toolbar</div>
+    <div class="step-body">
+      You&#8217;ll now see ZaramLeadFlow in your extensions list. To make it easy to access, <strong>pin it to your toolbar</strong>:<br><br>
+      Click the <strong>puzzle piece icon</strong> (&#9881;) in the top-right of Chrome. Find <strong>ZaramLeadFlow</strong> in the list and click the <strong>pin icon</strong> next to it. The ZaramLeadFlow icon will now appear in your Chrome toolbar every time you open Chrome.
+    </div>
+    <div class="step-img">
+      <svg viewBox="0 0 680 110" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Arial,sans-serif">
+        <rect width="680" height="110" fill="#F1F3F4"/>
+        <rect x="0" y="0" width="680" height="36" fill="#DEE1E6"/>
+        <!-- Toolbar right side -->
+        <circle cx="610" cy="18" r="12" fill="#E8EAED" stroke="#BDC1C6" stroke-width="1"/>
+        <text x="610" y="22" font-size="14" text-anchor="middle">&#9881;</text>
+        <!-- Dropdown extensions list -->
+        <rect x="490" y="36" width="180" height="70" fill="#fff" rx="6" stroke="#BDC1C6" stroke-width="1" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
+        <text x="504" y="56" font-size="9" fill="#5F6368" font-weight="600">EXTENSIONS</text>
+        <rect x="496" y="62" width="164" height="22" fill="#E8F0FE" rx="4"/>
+        <rect x="502" y="67" width="12" height="12" fill="#1A6BFF" rx="2"/>
+        <text x="520" y="77" font-size="9" fill="#202124" font-weight="600">ZaramLeadFlow</text>
+        <!-- Pin icon highlighted -->
+        <text x="640" y="77" font-size="13" fill="#1A73E8">&#128204;</text>
+        <!-- Arrow -->
+        <text x="330" y="75" font-size="22" fill="#4B5563">&#8594;</text>
+        <!-- Toolbar with pinned icon -->
+        <rect x="360" y="0" width="300" height="36" fill="#DEE1E6"/>
+        <circle cx="610" cy="18" r="12" fill="#1A6BFF"/>
+        <text x="610" y="23" font-size="10" fill="#fff" text-anchor="middle" font-weight="800">ZL</text>
+        <text x="490" y="68" font-size="11" fill="#137333" font-weight="600" text-anchor="middle">&#10003; Pinned to toolbar!</text>
+        <text x="490" y="84" font-size="9" fill="#5F6368" text-anchor="middle">Click the icon anytime to open LeadFlow</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="step-card">
+    <div class="step-num">Step 5</div>
+    <div class="step-title">Enter your license key &amp; start outreach</div>
+    <div class="step-body">
+      Click the <strong>ZaramLeadFlow icon</strong> in your toolbar. The extension side panel will open.<br><br>
+      Go to <strong>Settings</strong> (the gear icon &#9881;). Paste the <strong>license key from your email</strong> into the field and click <strong>Activate</strong>.<br><br>
+      That&#8217;s it. You&#8217;re ready to import your first lead list and start sending personalized DMs.
+    </div>
+    <div class="tip">
+      <span class="tip-icon">&#128274;</span>
+      <span>Your license key is in the email that was sent right after payment. Subject line: <strong>&#8220;Your ZaramLeadFlow License Key&#8221;</strong>. Check spam if you cannot find it.</span>
+    </div>
+  </div>
+
+  <!-- Done -->
+  <div class="done-card">
+    <div class="done-icon">&#127881;</div>
+    <h2>You&#8217;re all set!</h2>
+    <p>ZaramLeadFlow is installed and activated. Import your first Google Sheet or CSV and start sending personalized DMs today.</p>
+    <a class="support-link" href="mailto:johnogbonnae@gmail.com?subject=ZaramLeadFlow%20Support">Need help? Email support &#8594;</a>
+  </div>
+</div>
+
+</body>
+</html>

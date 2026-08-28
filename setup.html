@@ -275,12 +275,47 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <div class="step-title">Enter your license key &amp; start outreach</div>
     <div class="step-body">
       Click the <strong>ZaramLeadFlow icon</strong> in your toolbar. The extension side panel will open.<br><br>
-      Go to <strong>Settings</strong> (the gear icon &#9881;). Paste the <strong>license key from your email</strong> into the field and click <strong>Activate</strong>.<br><br>
-      That&#8217;s it. You&#8217;re ready to import your first lead list and start sending personalized DMs.
+      Go to <strong>Settings</strong> (the gear icon &#9881;). Under the <strong>License</strong> section:<br><br>
+      1. Enter the <strong>email address you used to pay</strong><br>
+      2. Paste the <strong>license key from your email</strong> (starts with ZARAM-...)<br>
+      3. Click <strong>Activate License</strong>
     </div>
     <div class="tip">
       <span class="tip-icon">&#128274;</span>
       <span>Your license key is in the email that was sent right after payment. Subject line: <strong>&#8220;Your ZaramLeadFlow License Key&#8221;</strong>. Check spam if you cannot find it.</span>
+    </div>
+  </div>
+
+
+  <!-- Step 6 -->
+  <div class="step-card">
+    <div class="step-num">Step 6</div>
+    <div class="step-title">Add your AI API key</div>
+    <div class="step-body">
+      ZaramLeadFlow uses AI to write personalized messages. You need your own API key &mdash; it takes 2 minutes to get one for free.<br><br>
+      In the extension <strong>Settings</strong>, find <strong>"API Key"</strong> and <strong>"AI Provider"</strong>.<br><br>
+
+      <strong>Option A &mdash; OpenAI (recommended for most users):</strong><br>
+      1. Go to <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com/api-keys</a><br>
+      2. Sign in (or create a free account)<br>
+      3. Click <strong>&#8220;Create new secret key&#8221;</strong> &mdash; give it any name<br>
+      4. Copy the key (starts with <code style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;font-size:12px">sk-...</code>)<br>
+      5. In the extension Settings, set <strong>AI Provider</strong> to <strong>OpenAI</strong> and paste the key<br><br>
+
+      <strong>Option B &mdash; OpenRouter (if you want to use Claude / Anthropic models):</strong><br>
+      1. Go to <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a><br>
+      2. Sign in (or create a free account)<br>
+      3. Click <strong>&#8220;Create Key&#8221;</strong><br>
+      4. Copy the key (starts with <code style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;font-size:12px">sk-or-v1-...</code>)<br>
+      5. In the extension Settings, set <strong>AI Provider</strong> to <strong>OpenRouter</strong> and paste the key
+    </div>
+    <div class="tip">
+      <span class="tip-icon">&#128176;</span>
+      <span>Both OpenAI and OpenRouter charge per message generated &mdash; typically less than <strong>&#36;0.01</strong> per message. You only pay for what you use. A free-tier OpenAI account gives you enough credits to get started.</span>
+    </div>
+    <div class="warn" style="margin-top:10px">
+      <span class="tip-icon">&#128274;</span>
+      <span>Your API key is stored only in your browser and sent directly to OpenAI/OpenRouter. It never touches anyone else&#8217;s server permanently. Keep it private &mdash; do not share it.</span>
     </div>
   </div>
 
@@ -289,7 +324,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <div class="done-icon">&#127881;</div>
     <h2>You&#8217;re all set!</h2>
     <p>ZaramLeadFlow is installed and activated. Import your first Google Sheet or CSV and start sending personalized DMs today.</p>
-    <a class="support-link" href="mailto:johnogbonnae@gmail.com?subject=ZaramLeadFlow%20Support">Need help? Email support &#8594;</a>
+    <a class="support-link" href="https://wa.me/13018926590?text=Hi%2C%20I%20need%20help%20with%20ZaramLeadFlow" target="_blank" rel="noopener">Need help? WhatsApp support &#8594;</a>
   </div>
 </div>
 

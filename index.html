@@ -871,7 +871,28 @@ nav {
   color: var(--success);
   margin-bottom: 4px;
 }
-.ethics-body p:last-child { font-size: 13px; color: var(--muted); max-width: none; }
+.ethics-body p { font-size: 13px; color: var(--muted); max-width: none; margin-bottom: 16px; }
+.ethics-body p:last-of-type { margin-bottom: 0; }
+.split-bar-wrap { margin-top: 16px; }
+.split-bar {
+  display: flex; border-radius: 8px; overflow: hidden;
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+  height: 52px;
+}
+.split-bar-ai {
+  width: 95%; background: rgba(91,82,232,0.25);
+  border: 1px solid rgba(91,82,232,0.4);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: var(--accent-lt); line-height: 1.3; gap: 1px;
+}
+.split-bar-human {
+  width: 5%; background: rgba(52,211,153,0.15);
+  border: 1px solid rgba(52,211,153,0.3); border-left: none;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: var(--success); line-height: 1.3; white-space: nowrap; overflow: hidden;
+  min-width: 80px;
+}
+.split-bar-ai span, .split-bar-human span { font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 10px; opacity: 0.7; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    CTA
@@ -1079,7 +1100,7 @@ footer {
   </h1>
 
   <p class="hero-sub">
-    Zaram LeadFlow pulls your leads straight from Google Sheets, writes a unique opener for each one, and drops it into Instagram's DM box — you review it and press Send. That's it.
+    Zaram LeadFlow pulls your leads from Google Sheets (or a CSV upload), writes a unique AI opener for each one, and drops it into Instagram's DM box — you review it and press Send. That's it.
   </p>
 
   <div class="hero-ctas">
@@ -1473,8 +1494,8 @@ footer {
     <div class="steps-flow">
       <div class="step-card reveal">
         <div class="step-num-circle">1</div>
-        <div class="step-title">Connect your Sheet</div>
-        <p class="step-desc">Sign in with Google. Pick your spreadsheet. LeadFlow reads your lead list — Instagram handles, names, locations — and queues them up.</p>
+        <div class="step-title">Connect your Sheet or CSV</div>
+        <p class="step-desc">Sign in with Google and pick your spreadsheet — or upload a CSV file directly. LeadFlow works through your leads <em>row by row in order</em>, exactly as they appear in your file. No randomness.</p>
       </div>
       <div class="step-card reveal reveal-delay-1">
         <div class="step-num-circle">2</div>
@@ -1505,8 +1526,8 @@ footer {
     <div class="features-grid">
       <div class="feature-card reveal">
         <div class="feature-icon">📊</div>
-        <div class="feature-title">Google Sheets Sync</div>
-        <p class="feature-desc">Connect any spreadsheet. LeadFlow reads your lead data live and writes back outreach status, sent timestamps, and reply notes automatically.</p>
+        <div class="feature-title">Google Sheets Sync — or CSV Upload</div>
+        <p class="feature-desc">Connect any Google Sheet directly, or upload a CSV file if you prefer to keep it offline. LeadFlow works through your leads <strong>row by row in exact order</strong> — no randomness, no skipping. Row 35 in your sheet is lead 35 in your session.</p>
       </div>
       <div class="feature-card reveal reveal-delay-1">
         <div class="feature-icon">🤖</div>
@@ -1538,8 +1559,14 @@ footer {
     <div class="ethics-banner reveal">
       <div class="ethics-icon">🛡️</div>
       <div class="ethics-body">
-        <p>You always press Send. Always.</p>
-        <p>LeadFlow never sends a message automatically. It writes, you review, you decide. This isn't a bot — it's an assistant. That's why it works long-term and stays within Instagram's terms of use.</p>
+        <p>Why does the human press Send — not the AI?</p>
+        <p>Instagram's algorithm is very good at detecting bots. Fully automated DM tools get accounts flagged or disabled within days. LeadFlow is deliberately designed so <strong>AI handles 95% of the work</strong> — pulling the lead, writing the message, inserting it into the DM box — and <strong>you handle 5%</strong>: a quick glance and one keypress. That tiny human action is exactly what keeps your account safe. It's not a limitation. It's the strategy that makes this sustainable long-term.</p>
+        <div class="split-bar-wrap">
+          <div class="split-bar">
+            <div class="split-bar-ai">AI — 95%<br><span>Write · Load · Insert</span></div>
+            <div class="split-bar-human">You — 5%<br><span>Review · Send</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -1008,6 +1008,7 @@ nav {
   position: relative; z-index: 1;
 }
 
+<script src="https://js.paystack.co/v1/inline.js"></script>
 /* ─── Footer ──────────────────────────────────────────────────────────── */
 footer {
   background: var(--void);
@@ -1467,6 +1468,164 @@ footer {
   padding: 4px 11px;
   border-radius: 100px;
 }
+
+/* ── Pricing / Paystack ────────────────────────────────────────── */
+.pricing-section { padding: 80px 0; }
+.pricing-card {
+  max-width: 480px; margin: 0 auto;
+  background: var(--card);
+  border: 1px solid rgba(232,185,35,0.25);
+  border-radius: 20px; padding: 44px 40px;
+  text-align: center;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+}
+.pricing-badge {
+  display: inline-block; background: var(--success); color: #000;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; padding: 5px 14px;
+  border-radius: 100px; margin-bottom: 24px;
+}
+.pricing-amount {
+  font-family: 'Syne', sans-serif; font-size: 56px;
+  font-weight: 800; color: #fff; line-height: 1; margin-bottom: 4px;
+}
+.pricing-amount span {
+  font-size: 24px; color: var(--accent-lt);
+  vertical-align: top; margin-top: 12px; display: inline-block;
+}
+.pricing-period { color: #9aa0ae; font-size: 14px; margin-bottom: 32px; }
+.pricing-features {
+  list-style: none; padding: 0; margin: 0 0 36px; text-align: left;
+}
+.pricing-features li {
+  padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 14px; color: #c8cdd8;
+  display: flex; align-items: center; gap: 10px;
+}
+.pricing-features li:last-child { border-bottom: none; }
+.pf-check { color: var(--success); font-size: 16px; flex-shrink: 0; }
+.paystack-btn {
+  width: 100%; padding: 18px;
+  background: var(--success); color: #000; border: none;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 6px 24px rgba(232,185,35,0.35);
+}
+.paystack-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(232,185,35,0.45);
+}
+.pricing-guarantee { margin-top: 16px; font-size: 12px; color: #6b7280; }
+.ps-modal-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(4,13,28,0.85); backdrop-filter: blur(4px);
+  z-index: 9000; align-items: center; justify-content: center;
+}
+.ps-modal-backdrop.open { display: flex; }
+.ps-modal {
+  background: var(--card); border: 1px solid rgba(26,107,255,0.3);
+  border-radius: 16px; padding: 40px; max-width: 420px; width: 90%;
+  text-align: center;
+}
+.ps-modal h3 {
+  font-family: 'Syne', sans-serif; font-size: 22px;
+  font-weight: 700; margin-bottom: 8px;
+}
+.ps-modal p { color: #9aa0ae; font-size: 14px; margin-bottom: 24px; }
+.ps-email-input {
+  width: 100%; padding: 14px 16px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15); background: var(--surface);
+  color: #fff; font-size: 15px; margin-bottom: 16px; box-sizing: border-box;
+}
+.ps-email-input:focus { outline: none; border-color: var(--accent); }
+.ps-pay-btn {
+  width: 100%; padding: 15px; background: var(--success); color: #000;
+  border: none; border-radius: 8px;
+  font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800;
+  cursor: pointer;
+}
+.ps-pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.ps-cancel { margin-top: 12px; font-size: 13px; color: #6b7280; cursor: pointer; text-decoration: underline; }
+
+/* ── Pricing / Paystack ────────────────────────────────────────── */
+.pricing-section { padding: 80px 0; }
+.pricing-card {
+  max-width: 480px; margin: 0 auto;
+  background: var(--card);
+  border: 1px solid rgba(232,185,35,0.25);
+  border-radius: 20px; padding: 44px 40px;
+  text-align: center;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+}
+.pricing-badge {
+  display: inline-block; background: var(--success); color: #000;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; padding: 5px 14px;
+  border-radius: 100px; margin-bottom: 24px;
+}
+.pricing-amount {
+  font-family: 'Syne', sans-serif; font-size: 56px;
+  font-weight: 800; color: #fff; line-height: 1; margin-bottom: 4px;
+}
+.pricing-amount span {
+  font-size: 24px; color: var(--accent-lt);
+  vertical-align: top; margin-top: 12px; display: inline-block;
+}
+.pricing-period { color: #9aa0ae; font-size: 14px; margin-bottom: 32px; }
+.pricing-features {
+  list-style: none; padding: 0; margin: 0 0 36px; text-align: left;
+}
+.pricing-features li {
+  padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 14px; color: #c8cdd8;
+  display: flex; align-items: center; gap: 10px;
+}
+.pricing-features li:last-child { border-bottom: none; }
+.pf-check { color: var(--success); font-size: 16px; flex-shrink: 0; }
+.paystack-btn {
+  width: 100%; padding: 18px;
+  background: var(--success); color: #000; border: none;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 6px 24px rgba(232,185,35,0.35);
+}
+.paystack-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(232,185,35,0.45);
+}
+.pricing-guarantee { margin-top: 16px; font-size: 12px; color: #6b7280; }
+.ps-modal-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(4,13,28,0.85); backdrop-filter: blur(4px);
+  z-index: 9000; align-items: center; justify-content: center;
+}
+.ps-modal-backdrop.open { display: flex; }
+.ps-modal {
+  background: var(--card); border: 1px solid rgba(26,107,255,0.3);
+  border-radius: 16px; padding: 40px; max-width: 420px; width: 90%;
+  text-align: center;
+}
+.ps-modal h3 {
+  font-family: 'Syne', sans-serif; font-size: 22px;
+  font-weight: 700; margin-bottom: 8px;
+}
+.ps-modal p { color: #9aa0ae; font-size: 14px; margin-bottom: 24px; }
+.ps-email-input {
+  width: 100%; padding: 14px 16px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15); background: var(--surface);
+  color: #fff; font-size: 15px; margin-bottom: 16px; box-sizing: border-box;
+}
+.ps-email-input:focus { outline: none; border-color: var(--accent); }
+.ps-pay-btn {
+  width: 100%; padding: 15px; background: var(--success); color: #000;
+  border: none; border-radius: 8px;
+  font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800;
+  cursor: pointer;
+}
+.ps-pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.ps-cancel { margin-top: 12px; font-size: 13px; color: #6b7280; cursor: pointer; text-decoration: underline; }
 </style>
 <script type="application/ld+json">
 {
@@ -2330,20 +2489,48 @@ footer {
 <!-- ═══════════════════════════════════════════════════════════════════
      CTA
 ════════════════════════════════════════════════════════════════════ -->
-<section id="cta">
+<section id="cta" class="pricing-section">
   <div class="container">
-    <h2 class="cta-headline reveal">Stop sending messages<br>nobody reads.</h2>
+    <h2 class="cta-headline reveal">One price.<br>Real conversations.</h2>
     <p class="cta-sub reveal reveal-delay-1">
-      Join freelancers using Zaram LeadFlow to start real conversations — and close real deals — on Instagram.
+      No trial. No hidden fees. Get your license key by email the moment you pay.
     </p>
-    <div class="cta-btn-wrap reveal reveal-delay-2">
-      <a class="cta-main-btn" href="mailto:johnogbonnae@gmail.com?subject=Zaram LeadFlow Access">
-        Get Early Access →
-      </a>
-      <p class="cta-note">Chrome extension · Works with any Google Sheet · You press Send</p>
+
+    <div class="pricing-card reveal reveal-delay-2">
+      <div class="pricing-badge">Monthly Access</div>
+      <div class="pricing-amount"><span>&#8358;</span>5,000</div>
+      <div class="pricing-period">per month &nbsp;&middot;&nbsp; billed via Paystack</div>
+
+      <ul class="pricing-features">
+        <li><span class="pf-check">&#10003;</span> AI-written openers for every lead</li>
+        <li><span class="pf-check">&#10003;</span> Google Sheets + CSV import</li>
+        <li><span class="pf-check">&#10003;</span> Unlimited message generation</li>
+        <li><span class="pf-check">&#10003;</span> Reply tracking &amp; send logs</li>
+        <li><span class="pf-check">&#10003;</span> Chrome extension &mdash; works on any PC</li>
+        <li><span class="pf-check">&#10003;</span> License key emailed instantly</li>
+      </ul>
+
+      <button class="paystack-btn" onclick="openPayModal()">
+        Get ZaramLeadFlow &mdash; &#8358;5,000/mo &rarr;
+      </button>
+      <p class="pricing-guarantee">Secure payment via Paystack &nbsp;&middot;&nbsp; License delivered to your email</p>
     </div>
   </div>
 </section>
+
+<!-- Email capture modal -->
+<div class="ps-modal-backdrop" id="psBackdrop">
+  <div class="ps-modal">
+    <h3>Enter your email</h3>
+    <p>Your license key will be sent here immediately after payment.</p>
+    <input class="ps-email-input" id="psEmail" type="email" placeholder="you@example.com" autocomplete="email"/>
+    <button class="ps-pay-btn" id="psPayBtn" onclick="startPaystack()">Continue to payment &rarr;</button>
+    <div class="ps-cancel" onclick="closePayModal()">Cancel</div>
+  </div>
+</div>
+
+<!-- dummy anchor so old JS below still finds the section -->
+<span id="cta-old" style="display:none"></span>
 
 <!-- ─── Footer ───────────────────────────────────────────────────────── -->
 <footer>
@@ -2487,6 +2674,116 @@ function cycleMessage() {
   }, 400);
 }
 setInterval(cycleMessage, 3200);
+
+// ── Paystack payment flow ──────────────────────────────────────────────────
+function openPayModal() {
+  document.getElementById('psBackdrop').classList.add('open');
+  setTimeout(function(){ document.getElementById('psEmail').focus(); }, 100);
+}
+
+function closePayModal() {
+  document.getElementById('psBackdrop').classList.remove('open');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var backdrop = document.getElementById('psBackdrop');
+  if (backdrop) {
+    backdrop.addEventListener('click', function(e) {
+      if (e.target === backdrop) closePayModal();
+    });
+  }
+});
+
+function startPaystack() {
+  var email = document.getElementById('psEmail').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('psEmail').focus();
+    return;
+  }
+  var btn = document.getElementById('psPayBtn');
+  btn.disabled = true;
+  btn.textContent = 'Loading...';
+
+  var handler = PaystackPop.setup({
+    key: 'pk_live_3cf98eddeae2340429c80504af83d8b0b9f09dfd',
+    email: email,
+    amount: 500000,
+    currency: 'NGN',
+    ref: 'ZLF-' + Date.now() + '-' + Math.random().toString(36).slice(2,7).toUpperCase(),
+    label: 'ZaramLeadFlow Monthly',
+    onClose: function() {
+      btn.disabled = false;
+      btn.textContent = 'Continue to payment \u2192';
+    },
+    callback: function(response) {
+      closePayModal();
+      btn.disabled = false;
+      btn.textContent = 'Continue to payment \u2192';
+      var cta = document.getElementById('cta');
+      if (cta) {
+        cta.innerHTML = '<div class="container" style="text-align:center;padding:80px 20px">' +
+          '<div style="font-size:52px;margin-bottom:20px">\u2705</div>' +
+          '<h2 style="font-family:Syne,sans-serif;font-size:28px;color:#E8B923;margin-bottom:12px">Payment received!</h2>' +
+          '<p style="color:#9aa0ae;font-size:16px;max-width:420px;margin:0 auto">Your license key is heading to <strong style="color:#fff">' + email + '</strong>.<br><br>Check spam if it does not arrive within 2 minutes.</p>' +
+          '</div>';
+      }
+    }
+  });
+  handler.openIframe();
+}
+
+// ── Paystack payment flow ──────────────────────────────────────────────────
+function openPayModal() {
+  document.getElementById('psBackdrop').classList.add('open');
+  setTimeout(function(){ document.getElementById('psEmail').focus(); }, 100);
+}
+
+function closePayModal() {
+  document.getElementById('psBackdrop').classList.remove('open');
+}
+
+(function() {
+  var bd = document.getElementById('psBackdrop');
+  if (bd) bd.addEventListener('click', function(e) { if (e.target === bd) closePayModal(); });
+})();
+
+function startPaystack() {
+  var email = document.getElementById('psEmail').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('psEmail').focus();
+    return;
+  }
+  var btn = document.getElementById('psPayBtn');
+  btn.disabled = true;
+  btn.textContent = 'Loading...';
+
+  var handler = PaystackPop.setup({
+    key: 'pk_live_3cf98eddeae2340429c80504af83d8b0b9f09dfd',
+    email: email,
+    amount: 500000,
+    currency: 'NGN',
+    ref: 'ZLF-' + Date.now() + '-' + Math.random().toString(36).slice(2,7).toUpperCase(),
+    label: 'ZaramLeadFlow Monthly',
+    onClose: function() {
+      btn.disabled = false;
+      btn.textContent = 'Continue to payment →';
+    },
+    callback: function(response) {
+      closePayModal();
+      btn.disabled = false;
+      btn.textContent = 'Continue to payment →';
+      var cta = document.getElementById('cta');
+      if (cta) {
+        cta.innerHTML = '<div class="container" style="text-align:center;padding:80px 20px">' +
+          '<div style="font-size:52px;margin-bottom:20px">✅</div>' +
+          '<h2 style="font-family:Syne,sans-serif;font-size:28px;color:#E8B923;margin-bottom:12px">Payment received!</h2>' +
+          '<p style="color:#9aa0ae;font-size:16px;max-width:420px;margin:0 auto">Your license key is heading to <strong style="color:#fff">' + email + '</strong>.<br><br>Check spam if it does not arrive within 2 minutes.</p>' +
+          '</div>';
+      }
+    }
+  });
+  handler.openIframe();
+}
 </script>
 </body>
 </html>

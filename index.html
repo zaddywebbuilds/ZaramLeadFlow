@@ -839,20 +839,19 @@ nav {
 }
 .step-card {
   text-align: center;
-  padding: 0 16px;
+  padding: 0 8px;
 }
 .step-num-circle {
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent-lt));
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Syne', sans-serif;
-  font-size: 20px; font-weight: 800;
-  color: #fff;
-  margin: 0 auto 20px;
+  width: 100%; height: 140px;
+  border-radius: 12px;
+  display: flex; align-items: stretch; justify-content: stretch;
+  margin: 0 0 20px 0;
+  overflow: hidden;
+  background: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
   position: relative; z-index: 1;
-  box-shadow: 0 0 0 6px var(--surface), 0 0 30px var(--accent-glow);
 }
+.step-num-circle svg { width: 100%; height: 100%; display: block; }
 .step-title {
   font-family: 'Syne', sans-serif;
   font-size: 15px; font-weight: 700;
@@ -1957,22 +1956,129 @@ footer {
 
     <div class="steps-flow">
       <div class="step-card reveal">
-        <div class="step-num-circle">1</div>
+        <div class="step-num-circle"><svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Arial,sans-serif">
+  <rect width="260" height="140" fill="#fff"/>
+  <!-- Google sign-in header -->
+  <rect width="260" height="32" fill="#F8F9FA"/>
+  <rect x="10" y="9" width="14" height="14" fill="#0F9D58" rx="2"/>
+  <text x="30" y="20" font-size="8.5" fill="#202124" font-weight="600">Connect a spreadsheet</text>
+  <line x1="0" y1="32" x2="260" y2="32" stroke="#E8EAED" stroke-width="1"/>
+  <!-- Google account row -->
+  <circle cx="22" cy="48" r="9" fill="#4285F4"/>
+  <text x="22" y="52" font-size="7" fill="#fff" text-anchor="middle" font-weight="700">J</text>
+  <text x="38" y="45" font-size="8" fill="#202124" font-weight="600">johnogbonnae@gmail.com</text>
+  <text x="38" y="56" font-size="7" fill="#5F6368">Google account connected</text>
+  <rect x="220" y="39" width="30" height="16" fill="#0F9D58" rx="8"/>
+  <text x="235" y="51" font-size="7" fill="#fff" text-anchor="middle" font-weight="600">OK</text>
+  <line x1="10" y1="65" x2="250" y2="65" stroke="#E8EAED" stroke-width="0.5"/>
+  <!-- Spreadsheet picker -->
+  <text x="14" y="78" font-size="7.5" fill="#5F6368" letter-spacing="0.5">SELECT SHEET</text>
+  <rect x="10" y="83" width="240" height="20" fill="#E6F4EA" rx="5" stroke="#0F9D58" stroke-width="1"/>
+  <rect x="16" y="88" width="10" height="10" fill="#0F9D58" rx="1"/>
+  <text x="32" y="97" font-size="8" fill="#137333" font-weight="600">US Dentists &mdash; LA</text>
+  <text x="220" y="97" font-size="8" fill="#0F9D58">&#10003;</text>
+  <rect x="10" y="107" width="240" height="18" fill="#F8F9FA" rx="5" stroke="#E8EAED" stroke-width="1"/>
+  <rect x="16" y="112" width="10" height="10" fill="#E8EAED" rx="1"/>
+  <text x="32" y="121" font-size="8" fill="#9AA0A6">NYC Massage Studios</text>
+  <!-- Step badge -->
+  <circle cx="238" cy="16" r="10" fill="#1A6BFF"/>
+  <text x="238" y="20" font-size="9" fill="#fff" text-anchor="middle" font-weight="800">1</text>
+</svg></div>
         <div class="step-title">Connect your Sheet or CSV</div>
         <p class="step-desc">Sign in with Google and pick your spreadsheet — or upload a CSV file directly. LeadFlow works through your leads <em>row by row in order</em>, exactly as they appear in your file. No randomness.</p>
       </div>
       <div class="step-card reveal reveal-delay-1">
-        <div class="step-num-circle">2</div>
+        <div class="step-num-circle"><svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Arial,sans-serif">
+  <rect width="260" height="140" fill="#F4F5FA"/>
+  <rect x="8" y="8" width="244" height="124" fill="#fff" rx="8" stroke="#E7EAF0" stroke-width="1"/>
+  <!-- Header -->
+  <rect x="8" y="8" width="244" height="24" fill="#F8F9FC" rx="8"/>
+  <rect x="8" y="24" width="244" height="8" fill="#F8F9FC"/>
+  <text x="18" y="22" font-size="7" fill="#9AA1AE" letter-spacing="0.8">AI MESSAGE &mdash; ROW 35</text>
+  <rect x="210" y="11" width="36" height="14" fill="#1A6BFF" rx="3"/>
+  <text x="228" y="22" font-size="7.5" fill="#fff" text-anchor="middle" font-weight="600">GPT-4.1</text>
+  <!-- Typing message -->
+  <text x="18" y="46" font-size="8" fill="#1F2937">Hi Watts Healthcare! Noticed you serve</text>
+  <text x="18" y="58" font-size="8" fill="#1F2937">249 patients in LA &mdash; quick question:</text>
+  <text x="18" y="70" font-size="8" fill="#1F2937">are you currently getting new patients</text>
+  <text x="18" y="82" font-size="8" fill="#1F2937">through Instagram, or mostly referrals?</text>
+  <rect x="18" y="88" width="2" height="10" fill="#1A6BFF" rx="1"/>
+  <!-- Footer bar -->
+  <line x1="8" y1="104" x2="252" y2="104" stroke="#F0F2F6" stroke-width="1"/>
+  <text x="18" y="116" font-size="7" fill="#9AA1AE">Curiosity Hook &middot; PAS &middot; 212 chars</text>
+  <rect x="188" y="108" width="56" height="16" fill="#6D5DF6" rx="3"/>
+  <text x="216" y="120" font-size="7.5" fill="#fff" text-anchor="middle">Regenerate</text>
+  <!-- Step badge -->
+  <circle cx="238" cy="20" r="10" fill="#1A6BFF"/>
+  <text x="238" y="24" font-size="9" fill="#fff" text-anchor="middle" font-weight="800">2</text>
+</svg></div>
         <div class="step-title">AI writes the opener</div>
         <p class="step-desc">For every lead, GPT writes a fresh, unique question. Different structure. Different wording. Never the same message twice.</p>
       </div>
       <div class="step-card reveal reveal-delay-2">
-        <div class="step-num-circle">3</div>
+        <div class="step-num-circle"><svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Arial,sans-serif">
+  <rect width="260" height="140" fill="#fff"/>
+  <!-- Instagram DM composer background -->
+  <rect width="260" height="140" fill="#FAFAFA"/>
+  <!-- Top bar: IG DM header -->
+  <rect width="260" height="38" fill="#fff" stroke="#DBDBDB" stroke-width="0"/>
+  <line x1="0" y1="38" x2="260" y2="38" stroke="#DBDBDB" stroke-width="1"/>
+  <circle cx="22" cy="19" r="10" fill="#E0E0E0"/>
+  <text x="38" y="23" font-size="8.5" fill="#262626" font-weight="600">wattshealthcare</text>
+  <!-- Message already inserted in DM box -->
+  <rect x="10" y="44" width="240" height="62" fill="#fff" rx="8" stroke="#DBDBDB" stroke-width="1"/>
+  <text x="18" y="58" font-size="7.5" fill="#262626">Hi Watts Healthcare! Noticed you serve</text>
+  <text x="18" y="69" font-size="7.5" fill="#262626">249 patients in LA &mdash; quick question:</text>
+  <text x="18" y="80" font-size="7.5" fill="#262626">are you currently getting patients</text>
+  <text x="18" y="91" font-size="7.5" fill="#262626">through Instagram, or mostly referrals?</text>
+  <text x="18" y="102" font-size="7.5" fill="#BDBDBD">|</text>
+  <!-- Insert button highlighted -->
+  <rect x="10" y="112" width="116" height="22" fill="#EFF4FF" rx="5" stroke="#BDD7F7" stroke-width="1"/>
+  <text x="68" y="127" font-size="8" fill="#1A6BFF" text-anchor="middle" font-weight="600">&#8592; Insert &middot; Alt+I</text>
+  <!-- Send button -->
+  <rect x="134" y="112" width="116" height="22" fill="#1A6BFF" rx="5"/>
+  <text x="192" y="127" font-size="8" fill="#fff" text-anchor="middle" font-weight="600">Sent &amp; Next &middot; Alt+S &#8594;</text>
+  <!-- Step badge -->
+  <circle cx="238" cy="19" r="10" fill="#1A6BFF"/>
+  <text x="238" y="23" font-size="9" fill="#fff" text-anchor="middle" font-weight="800">3</text>
+</svg></div>
         <div class="step-title">One click to insert</div>
         <p class="step-desc">The message drops straight into Instagram's DM composer. You read it, tweak it if you want, then press Send yourself.</p>
       </div>
       <div class="step-card reveal reveal-delay-3">
-        <div class="step-num-circle">4</div>
+        <div class="step-num-circle"><svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Arial,sans-serif">
+  <rect width="260" height="140" fill="#F9FAFB" rx="10"/>
+  <!-- KPI row -->
+  <rect x="8" y="8" width="57" height="38" fill="#fff" rx="6" stroke="#E7EAF0" stroke-width="1"/>
+  <text x="36" y="26" font-size="13" fill="#1A6BFF" font-weight="800" text-anchor="middle">34</text>
+  <text x="36" y="38" font-size="6.5" fill="#9AA1AE" text-anchor="middle" letter-spacing="0.3">SENT</text>
+  <rect x="71" y="8" width="57" height="38" fill="#fff" rx="6" stroke="#E7EAF0" stroke-width="1"/>
+  <text x="99" y="26" font-size="13" fill="#E8B923" font-weight="800" text-anchor="middle">8</text>
+  <text x="99" y="38" font-size="6.5" fill="#9AA1AE" text-anchor="middle" letter-spacing="0.3">REPLIES</text>
+  <rect x="134" y="8" width="57" height="38" fill="#fff" rx="6" stroke="#E7EAF0" stroke-width="1"/>
+  <text x="162" y="26" font-size="13" fill="#0F9D58" font-weight="800" text-anchor="middle">24%</text>
+  <text x="162" y="38" font-size="6.5" fill="#9AA1AE" text-anchor="middle" letter-spacing="0.3">RATE</text>
+  <rect x="197" y="8" width="55" height="38" fill="#fff" rx="6" stroke="#E7EAF0" stroke-width="1"/>
+  <text x="224" y="26" font-size="13" fill="#374151" font-weight="800" text-anchor="middle">11m</text>
+  <text x="224" y="38" font-size="6.5" fill="#9AA1AE" text-anchor="middle" letter-spacing="0.3">TIME</text>
+  <!-- Reply flagged row -->
+  <rect x="8" y="52" width="244" height="28" fill="#EFF8FF" rx="6" stroke="#BDD7F7" stroke-width="1"/>
+  <circle cx="22" cy="66" r="7" fill="#1A6BFF"/>
+  <text x="22" y="70" font-size="7" fill="#fff" text-anchor="middle" font-weight="700">!</text>
+  <text x="35" y="63" font-size="8" fill="#1A6BFF" font-weight="600">wattshealthcare replied &mdash; 2 min ago</text>
+  <text x="35" y="75" font-size="7.5" fill="#5B9CFF">Interested! What does it cost?</text>
+  <rect x="214" y="57" width="34" height="14" fill="#1A6BFF" rx="3"/>
+  <text x="231" y="68" font-size="7" fill="#fff" text-anchor="middle">Reply</text>
+  <!-- Sheet updated row -->
+  <rect x="8" y="86" width="244" height="22" fill="#E6F4EA" rx="6" stroke="#CEEAD6" stroke-width="1"/>
+  <text x="22" y="101" font-size="8" fill="#137333">&#10003; Row 35 marked Sent &middot; Sheet synced</text>
+  <!-- Quick reply ready -->
+  <rect x="8" y="114" width="244" height="20" fill="#fff" rx="6" stroke="#E7EAF0" stroke-width="1"/>
+  <text x="18" y="128" font-size="7.5" fill="#6B7280">Quick-reply ready: Pricing reply &middot; Portfolio &middot; Book a call</text>
+  <!-- Step badge -->
+  <circle cx="238" cy="16" r="10" fill="#1A6BFF"/>
+  <text x="238" y="20" font-size="9" fill="#fff" text-anchor="middle" font-weight="800">4</text>
+</svg></div>
         <div class="step-title">Track &amp; close</div>
         <p class="step-desc">Sheet updates automatically. Replies get flagged. Quick-reply templates ready for your follow-up pitch. Analytics show what's working.</p>
       </div>

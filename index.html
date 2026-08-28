@@ -2769,104 +2769,63 @@ function closePayModal() {
   document.getElementById('psBackdrop').classList.remove('open');
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  var backdrop = document.getElementById('psBackdrop');
-  if (backdrop) {
-    backdrop.addEventListener('click', function(e) {
-      if (e.target === backdrop) closePayModal();
-    });
-  }
-});
-
-function startPaystack() {
-  var email = document.getElementById('psEmail').value.trim();
-  if (!email || !email.includes('@')) {
-    document.getElementById('psEmail').focus();
-    return;
-  }
-  var btn = document.getElementById('psPayBtn');
-  btn.disabled = true;
-  btn.textContent = 'Loading...';
-
-  var handler = PaystackPop.setup({
-    key: 'pk_live_3cf98eddeae2340429c80504af83d8b0b9f09dfd',
-    email: email,
-    amount: 500000,
-    currency: 'NGN',
-    ref: 'ZLF-' + Date.now() + '-' + Math.random().toString(36).slice(2,7).toUpperCase(),
-    label: 'ZaramLeadFlow Monthly',
-    onClose: function() {
-      btn.disabled = false;
-      btn.textContent = 'Continue to payment \u2192';
-    },
-    callback: function(response) {
-      closePayModal();
-      btn.disabled = false;
-      btn.textContent = 'Continue to payment \u2192';
-      var cta = document.getElementById('cta');
-      if (cta) {
-        cta.innerHTML = '<div class="container" style="text-align:center;padding:80px 20px">' +
-          '<div style="font-size:52px;margin-bottom:20px">\u2705</div>' +
-          '<h2 style="font-family:Syne,sans-serif;font-size:28px;color:#E8B923;margin-bottom:12px">Payment received!</h2>' +
-          '<p style="color:#9aa0ae;font-size:16px;max-width:420px;margin:0 auto">Your license key is heading to <strong style="color:#fff">' + email + '</strong>.<br><br>Check spam if it does not arrive within 2 minutes.</p>' +
-          '</div>';
-      }
-    }
-  });
-  handler.openIframe();
-}
-
-// ── Paystack payment flow ──────────────────────────────────────────────────
-function openPayModal() {
-  document.getElementById('psBackdrop').classList.add('open');
-  setTimeout(function(){ document.getElementById('psEmail').focus(); }, 100);
-}
-
-function closePayModal() {
-  document.getElementById('psBackdrop').classList.remove('open');
-}
-
 (function() {
   var bd = document.getElementById('psBackdrop');
   if (bd) bd.addEventListener('click', function(e) { if (e.target === bd) closePayModal(); });
 })();
 
 function startPaystack() {
-  var email = document.getElementById('psEmail').value.trim();
+  var emailEl = document.getElementById('psEmail');
+  var email = emailEl.value.trim();
   if (!email || !email.includes('@')) {
-    document.getElementById('psEmail').focus();
+    emailEl.style.borderColor = '#ff4d4d';
+    emailEl.focus();
     return;
   }
-  var btn = document.getElementById('psPayBtn');
-  btn.disabled = true;
-  btn.textContent = 'Loading...';
+  emailEl.style.borderColor = '';
 
-  var handler = PaystackPop.setup({
-    key: 'pk_live_3cf98eddeae2340429c80504af83d8b0b9f09dfd',
-    email: email,
-    amount: 500000,
-    currency: 'NGN',
-    ref: 'ZLF-' + Date.now() + '-' + Math.random().toString(36).slice(2,7).toUpperCase(),
-    label: 'ZaramLeadFlow Monthly',
-    onClose: function() {
-      btn.disabled = false;
-      btn.textContent = 'Continue to payment →';
-    },
-    callback: function(response) {
-      closePayModal();
-      btn.disabled = false;
-      btn.textContent = 'Continue to payment →';
-      var cta = document.getElementById('cta');
-      if (cta) {
-        cta.innerHTML = '<div class="container" style="text-align:center;padding:80px 20px">' +
-          '<div style="font-size:52px;margin-bottom:20px">✅</div>' +
-          '<h2 style="font-family:Syne,sans-serif;font-size:28px;color:#E8B923;margin-bottom:12px">Payment received!</h2>' +
-          '<p style="color:#9aa0ae;font-size:16px;max-width:420px;margin:0 auto">Your license key is heading to <strong style="color:#fff">' + email + '</strong>.<br><br>Check spam if it does not arrive within 2 minutes.</p>' +
-          '</div>';
+  var btn = document.getElementById('psPayBtn');
+  function resetBtn() {
+    btn.disabled = false;
+    btn.textContent = 'Continue to payment \u2192';
+  }
+
+  if (typeof PaystackPop === 'undefined') {
+    alert('Payment system is still loading. Please wait a moment and try again.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Opening payment\u2026';
+
+  try {
+    var handler = PaystackPop.setup({
+      key: 'pk_live_3cf98eddeae2340429c80504af83d8b0b9f09dfd',
+      email: email,
+      amount: 500000,
+      currency: 'NGN',
+      ref: 'ZLF-' + Date.now() + '-' + Math.random().toString(36).slice(2,7).toUpperCase(),
+      label: 'ZaramLeadFlow Monthly',
+      onClose: function() { resetBtn(); },
+      callback: function(response) {
+        closePayModal();
+        resetBtn();
+        var cta = document.getElementById('cta');
+        if (cta) {
+          cta.innerHTML = '<div class="container" style="text-align:center;padding:80px 20px">' +
+            '<div style="font-size:52px;margin-bottom:20px">\u2705</div>' +
+            '<h2 style="font-family:Syne,sans-serif;font-size:28px;color:#E8B923;margin-bottom:12px">Payment received!</h2>' +
+            '<p style="color:#9aa0ae;font-size:16px;max-width:420px;margin:0 auto">Your license key is heading to <strong style="color:#fff">' + email + '</strong>.<br><br>Check spam if it does not arrive within 2 minutes.</p>' +
+            '</div>';
+        }
       }
-    }
-  });
-  handler.openIframe();
+    });
+    handler.openIframe();
+  } catch(err) {
+    console.error('Paystack error:', err);
+    resetBtn();
+    alert('Could not open payment window. Please refresh and try again.');
+  }
 }
 </script>
 </body>

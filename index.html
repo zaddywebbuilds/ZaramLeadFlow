@@ -949,8 +949,97 @@ footer {
 .footer-brand span { color: var(--accent-lt); }
 .footer-note { font-size: 13px; color: var(--muted2); }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   IN ACTION (video + screenshots)
+═══════════════════════════════════════════════════════════════════════ */
+#in-action {
+  background: var(--surface);
+  padding: 100px 0;
+}
+.in-action-header { text-align: center; margin-bottom: 56px; }
+.in-action-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.in-action-sub { font-size: 17px; color: var(--muted); max-width: 50ch; margin: 0 auto; }
+
+.video-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 56px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+  background: #000;
+}
+.video-wrap video { display: block; width: 100%; height: auto; }
+.video-badge {
+  position: absolute; top: 16px; left: 16px;
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: #fff; background: rgba(91,82,232,0.85);
+  backdrop-filter: blur(8px);
+  padding: 5px 12px; border-radius: 100px;
+}
+
+.screens-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted2); text-align: center; margin-bottom: 20px;
+}
+.screens-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.screen-card {
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border); background: var(--card);
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.screen-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(91,82,232,0.4);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+.screen-card img { display: block; width: 100%; height: auto; }
+.screen-caption {
+  padding: 10px 12px; font-size: 11px;
+  color: var(--muted); line-height: 1.4;
+  border-top: 1px solid var(--border);
+}
+.screen-caption strong {
+  display: block; font-size: 12px; font-weight: 600;
+  color: var(--text); margin-bottom: 2px;
+}
+
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(7,9,26,0.92); backdrop-filter: blur(12px);
+  align-items: center; justify-content: center; padding: 24px;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 100%; max-height: 90vh;
+  border-radius: 12px; box-shadow: 0 32px 100px rgba(0,0,0,0.8);
+}
+.lightbox-close {
+  position: absolute; top: 20px; right: 24px;
+  font-size: 28px; color: var(--muted);
+  cursor: pointer; line-height: 1; background: none; border: none;
+}
+.lightbox-close:hover { color: var(--text); }
+
 /* ─── Responsive ──────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
+  .screens-strip    { grid-template-columns: 1fr 1fr; }
   .workflow-compare { grid-template-columns: 1fr; }
   .workflow-vs      { display: none; }
   .agitate-grid     { grid-template-columns: 1fr; }
@@ -1284,6 +1373,63 @@ footer {
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
+     IN ACTION
+════════════════════════════════════════════════════════════════════ -->
+<section id="in-action">
+  <div class="container">
+    <div class="in-action-header reveal">
+      <h2 class="in-action-headline">Watch it in action.</h2>
+      <p class="in-action-sub">Real leads. Real extension. Two minutes of your next workflow.</p>
+    </div>
+
+    <div class="video-wrap reveal">
+      <video controls preload="metadata" poster="assets/screen-2-insert.jpg">
+        <source src="assets/demo.mp4" type="video/mp4">
+      </video>
+      <div class="video-badge">Live Demo</div>
+    </div>
+
+    <div class="screens-label reveal">Key moments from the demo</div>
+    <div class="screens-strip">
+      <div class="screen-card reveal" onclick="openLightbox('assets/screen-1-generating.jpg')">
+        <img src="assets/screen-1-generating.jpg" alt="Lead loaded, AI generating message" loading="lazy">
+        <div class="screen-caption">
+          <strong>Lead loads, AI writes</strong>
+          Profile validated, unique message generating in seconds
+        </div>
+      </div>
+      <div class="screen-card reveal reveal-delay-1" onclick="openLightbox('assets/screen-2-insert.jpg')">
+        <img src="assets/screen-2-insert.jpg" alt="DM thread open, message ready to insert" loading="lazy">
+        <div class="screen-caption">
+          <strong>One click to insert</strong>
+          Message drops straight into Instagram's DM box
+        </div>
+      </div>
+      <div class="screen-card reveal reveal-delay-2" onclick="openLightbox('assets/screen-3-next-lead.jpg')">
+        <img src="assets/screen-3-next-lead.jpg" alt="Next lead auto-loaded with a fresh message" loading="lazy">
+        <div class="screen-caption">
+          <strong>Next lead, new message</strong>
+          Totally different wording — same goal, zero repetition
+        </div>
+      </div>
+      <div class="screen-card reveal reveal-delay-3" onclick="openLightbox('assets/screen-4-history.jpg')">
+        <img src="assets/screen-4-history.jpg" alt="History tab showing sent DMs logged" loading="lazy">
+        <div class="screen-caption">
+          <strong>Every send logged</strong>
+          Full history with timestamps, searchable by name or handle
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <img src="" id="lightbox-img" alt="">
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
      SOLUTION
 ════════════════════════════════════════════════════════════════════ -->
 <section id="solution">
@@ -1433,6 +1579,18 @@ const io = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
 }, { threshold: 0.12 });
 revealEls.forEach(el => io.observe(el));
+
+/* Lightbox */
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 
 /* Cycling messages */
 const messages = [

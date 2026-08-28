@@ -1,0 +1,1461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zaram LeadFlow</title>
+<meta name="description" content="Turn your Google Sheet into a cold-DM machine. AI writes unique Instagram openers for every lead. You press Send. Deals follow.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* ─── Tokens ─────────────────────────────────────────────────────────── */
+:root {
+  --void:       #07091A;
+  --surface:    #0E1230;
+  --surface2:   #141840;
+  --card:       #111535;
+  --border:     rgba(255,255,255,0.08);
+  --accent:     #5B52E8;
+  --accent-lt:  #818CF8;
+  --accent-glow:rgba(91,82,232,0.35);
+  --pain:       #FF4D4D;
+  --pain-dim:   rgba(255,77,77,0.12);
+  --success:    #34D399;
+  --text:       #F0F1FF;
+  --muted:      #8890B4;
+  --muted2:     #555A7A;
+  --ground:     var(--void);
+  --bg:         var(--void);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --void:       #F5F6FF;
+    --surface:    #ECEEFF;
+    --surface2:   #E3E5FF;
+    --card:       #FFFFFF;
+    --border:     rgba(0,0,0,0.08);
+    --accent:     #4F46E5;
+    --accent-lt:  #6C63FF;
+    --accent-glow:rgba(79,70,229,0.15);
+    --pain:       #DC2626;
+    --pain-dim:   rgba(220,38,38,0.08);
+    --success:    #059669;
+    --text:       #0B0D1F;
+    --muted:      #4B5280;
+    --muted2:     #9499BB;
+    --ground:     var(--void);
+    --bg:         var(--void);
+  }
+}
+
+:root[data-theme="dark"] {
+  --void:       #07091A;
+  --surface:    #0E1230;
+  --surface2:   #141840;
+  --card:       #111535;
+  --border:     rgba(255,255,255,0.08);
+  --accent:     #5B52E8;
+  --accent-lt:  #818CF8;
+  --accent-glow:rgba(91,82,232,0.35);
+  --pain:       #FF4D4D;
+  --pain-dim:   rgba(255,77,77,0.12);
+  --success:    #34D399;
+  --text:       #F0F1FF;
+  --muted:      #8890B4;
+  --muted2:     #555A7A;
+  --ground:     var(--void);
+  --bg:         var(--void);
+}
+
+/* ─── Reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; }
+
+/* ─── Typography scale ───────────────────────────────────────────────── */
+.syne   { font-family: 'Syne', sans-serif; }
+.serif  { font-family: 'Instrument Serif', serif; font-style: italic; }
+.mono   { font-family: 'JetBrains Mono', monospace; }
+
+h1,h2,h3 { text-wrap: balance; line-height: 1.15; }
+p { max-width: 62ch; }
+
+/* ─── Layout utils ───────────────────────────────────────────────────── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.section   { padding: 100px 0; }
+.section--sm { padding: 64px 0; }
+
+/* ─── Reveal animations ─────────────────────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 18px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(7,9,26,0.72);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s;
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 18px;
+  letter-spacing: -0.3px;
+  color: var(--text);
+}
+.nav-logo span { color: var(--accent-lt); }
+.nav-cta {
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 13px;
+  letter-spacing: 0.3px;
+  padding: 10px 22px;
+  border-radius: 100px;
+  border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.nav-cta:hover {
+  background: var(--accent-lt);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  position: relative; overflow: hidden;
+  background: var(--void);
+}
+
+/* Ambient orbs */
+#hero::before, #hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+}
+#hero::before {
+  width: 600px; height: 600px;
+  background: var(--accent-glow);
+  top: -100px; left: -150px;
+  animation: orb-drift 12s ease-in-out infinite alternate;
+}
+#hero::after {
+  width: 400px; height: 400px;
+  background: rgba(129,140,248,0.15);
+  bottom: 50px; right: -100px;
+  animation: orb-drift 16s ease-in-out infinite alternate-reverse;
+}
+@keyframes orb-drift {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(40px, 30px) scale(1.1); }
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--accent-lt);
+  background: rgba(91,82,232,0.15);
+  border: 1px solid rgba(91,82,232,0.3);
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-bottom: 28px;
+}
+.eyebrow-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-lt);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+.hero-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(40px, 6vw, 76px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 12px;
+  position: relative; z-index: 1;
+}
+.hero-headline .accent-word {
+  position: relative;
+  display: inline-block;
+  color: var(--accent-lt);
+}
+.hero-headline .accent-word::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -4px; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-lt));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: underline-in 0.8s 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes underline-in { to { transform: scaleX(1); } }
+
+.hero-sub {
+  font-size: clamp(17px, 2.2vw, 21px);
+  color: var(--muted);
+  max-width: 54ch;
+  margin: 20px auto 40px;
+  line-height: 1.6;
+  position: relative; z-index: 1;
+}
+
+.hero-ctas {
+  display: flex; align-items: center; gap: 16px;
+  flex-wrap: wrap; justify-content: center;
+  margin-bottom: 64px;
+  position: relative; z-index: 1;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 16px;
+  padding: 16px 36px;
+  border-radius: 100px; border: none; cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 0 0 0 var(--accent-glow);
+}
+.btn-primary:hover {
+  background: var(--accent-lt);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px var(--accent-glow);
+}
+.btn-ghost {
+  color: var(--muted);
+  font-size: 15px;
+  display: flex; align-items: center; gap: 6px;
+  transition: color 0.2s;
+}
+.btn-ghost:hover { color: var(--text); }
+
+/* ─── Extension mockup ──────────────────────────────────────────────── */
+.mockup-wrapper {
+  position: relative; z-index: 1;
+  width: min(420px, 100%);
+  animation: float-bob 6s ease-in-out infinite;
+}
+@keyframes float-bob {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+.mockup-wrapper::before {
+  content: '';
+  position: absolute; inset: -30px;
+  background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+  filter: blur(20px);
+  z-index: -1;
+}
+
+.ext-shell {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1);
+  overflow: hidden;
+  font-size: 12px;
+  color: #111;
+  text-align: left;
+}
+
+/* Extension chrome bar */
+.ext-topbar {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 10px 12px 0;
+}
+.ext-topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 8px;
+}
+.ext-brand {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 13px;
+  color: #4F46E5;
+}
+.ext-nav {
+  display: flex; border-top: 1px solid #f3f4f6;
+  margin: 0 -12px;
+}
+.ext-nav-item {
+  flex: 1; text-align: center;
+  padding: 7px 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px; font-weight: 500;
+  color: #9ca3af;
+}
+.ext-nav-item.active {
+  color: #4F46E5;
+  border-bottom: 2px solid #4F46E5;
+}
+
+.ext-body { padding: 10px 12px; background: #f9fafb; }
+
+.ext-campaign-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
+}
+.ext-campaign-label { font-size: 9px; color: #9ca3af; }
+.ext-campaign-name { font-size: 11px; font-weight: 600; color: #111; }
+.ext-pause-btn {
+  font-size: 10px; font-weight: 600;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px; padding: 3px 10px;
+  color: #374151; background: #fff;
+}
+
+.ext-stats {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  background: #fff; border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 8px; overflow: hidden;
+}
+.ext-stat {
+  text-align: center; padding: 6px 4px;
+  border-right: 1px solid #f3f4f6;
+}
+.ext-stat:last-child { border-right: none; }
+.ext-stat-val { font-family: 'Syne',sans-serif; font-weight: 700; font-size: 13px; color: #4F46E5; }
+.ext-stat-val.zero { color: #111; }
+.ext-stat-lbl { font-size: 8px; color: #9ca3af; margin-top: 1px; }
+
+.ext-selectors {
+  background: #fff; border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.ext-selector-row {
+  display: flex; align-items: center; gap: 6px;
+}
+.ext-selector-label { font-size: 9px; color: #9ca3af; width: 52px; shrink: 0; }
+.ext-selector-val {
+  flex: 1; font-size: 10px; color: #374151;
+  background: #f9fafb; border: 1px solid #e5e7eb;
+  border-radius: 4px; padding: 3px 6px;
+}
+
+.ext-lead-card {
+  background: #fff; border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 8px; margin-bottom: 8px;
+}
+.ext-lead-name { font-weight: 600; font-size: 11px; color: #111; margin-bottom: 2px; }
+.ext-lead-handle { font-size: 10px; color: #4F46E5; margin-bottom: 4px; }
+.ext-lead-meta {
+  display: flex; gap: 8px; align-items: center;
+  font-size: 9px; color: #6b7280;
+}
+.ext-star { color: #F59E0B; }
+.ext-open-btn {
+  width: 100%; margin-top: 6px;
+  font-size: 10px; font-weight: 500;
+  background: #f9fafb; border: 1px solid #e5e7eb;
+  border-radius: 6px; padding: 5px;
+  color: #374151; text-align: center;
+}
+
+.ext-validation {
+  background: #ecfdf5; border: 1px solid #6ee7b7;
+  border-radius: 8px; padding: 6px 8px;
+  margin-bottom: 8px;
+}
+.ext-validation-title { font-size: 10px; font-weight: 600; color: #065f46; }
+.ext-validation-sub { font-size: 9px; color: #047857; margin-top: 1px; }
+
+.ext-message-box {
+  background: #fff; border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 8px; margin-bottom: 8px;
+}
+.ext-msg-header {
+  display: flex; justify-content: space-between;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase; color: #6b7280;
+  margin-bottom: 6px;
+}
+.ext-msg-text {
+  font-size: 11px; color: #111;
+  line-height: 1.5; min-height: 42px;
+}
+.ext-msg-text .cursor {
+  display: inline-block; width: 1px; height: 12px;
+  background: #4F46E5; margin-left: 1px;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.ext-msg-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 6px; font-size: 9px; color: #9ca3af;
+}
+
+.ext-btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px; }
+.ext-btn {
+  font-size: 10px; font-weight: 600;
+  border-radius: 6px; padding: 6px;
+  text-align: center; border: 1px solid #e5e7eb;
+  background: #f9fafb; color: #374151;
+}
+.ext-btn-primary {
+  background: #4F46E5; color: #fff;
+  border: none; border-radius: 8px;
+  padding: 8px; width: 100%;
+  font-size: 11px; font-weight: 700;
+  text-align: center;
+  font-family: 'Syne', sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PAIN SECTION
+═══════════════════════════════════════════════════════════════════════ */
+#pain {
+  background: var(--surface);
+  padding: 100px 0;
+  position: relative;
+}
+#pain::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+
+.pain-eyebrow {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--pain);
+  margin-bottom: 20px;
+}
+.pain-headline {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(36px, 5vw, 62px);
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.pain-sub {
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 52ch;
+  line-height: 1.7;
+  margin-bottom: 56px;
+}
+
+/* Workflow comparison */
+.workflow-compare {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  gap: 0;
+  align-items: start;
+}
+.workflow-col { }
+.workflow-vs {
+  display: flex; align-items: center; justify-content: center;
+  padding-top: 60px;
+}
+.vs-badge {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--void);
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px; font-weight: 800;
+  color: var(--muted);
+}
+
+.workflow-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.workflow-title.pain-title { color: var(--pain); }
+.workflow-title.win-title  { color: var(--success); }
+
+.workflow-steps { display: flex; flex-direction: column; gap: 8px; }
+.step-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  transition: border-color 0.2s;
+}
+.step-item.pain-step { border-color: rgba(255,77,77,0.15); }
+.step-item.win-step  { border-color: rgba(52,211,153,0.15); }
+.step-icon {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0; margin-top: 1px;
+}
+.step-icon.pain-icon { background: var(--pain-dim); }
+.step-icon.win-icon  { background: rgba(52,211,153,0.12); }
+.step-text strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 1px; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   AGITATE
+═══════════════════════════════════════════════════════════════════════ */
+#agitate {
+  background: var(--void);
+  padding: 100px 0;
+}
+.agitate-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 64px;
+}
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 28px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 52px; font-weight: 800;
+  line-height: 1;
+  color: var(--pain);
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.agitate-quote {
+  max-width: 720px; margin: 0 auto;
+  text-align: center;
+}
+.agitate-quote blockquote {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(22px, 3vw, 34px);
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 24px;
+}
+.agitate-quote p {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 56ch;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   INSIGHT
+═══════════════════════════════════════════════════════════════════════ */
+#insight {
+  background: var(--surface);
+  padding: 100px 0;
+}
+.insight-card {
+  max-width: 800px; margin: 0 auto;
+  background: var(--card);
+  border: 1px solid rgba(91,82,232,0.3);
+  border-radius: 24px;
+  padding: 56px;
+  position: relative;
+  overflow: hidden;
+}
+.insight-card::before {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 250px; height: 250px;
+  background: var(--accent-glow);
+  border-radius: 50%; filter: blur(60px);
+  pointer-events: none;
+}
+.insight-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--accent-lt);
+  margin-bottom: 20px;
+}
+.insight-headline {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.insight-body {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 32px;
+  max-width: 58ch;
+}
+.insight-steps {
+  display: flex; flex-direction: column; gap: 16px;
+}
+.insight-step {
+  display: flex; align-items: flex-start; gap: 16px;
+}
+.insight-step-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(91,82,232,0.2);
+  border: 1px solid rgba(91,82,232,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px; font-weight: 800;
+  color: var(--accent-lt);
+  flex-shrink: 0;
+}
+.insight-step-body { padding-top: 4px; }
+.insight-step-body strong {
+  display: block;
+  font-size: 15px; font-weight: 600; color: var(--text);
+  margin-bottom: 2px;
+}
+.insight-step-body span { font-size: 14px; color: var(--muted); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SOLUTION / PRODUCT
+═══════════════════════════════════════════════════════════════════════ */
+#solution {
+  background: var(--void);
+  padding: 100px 0;
+  text-align: center;
+}
+.solution-eyebrow {
+  display: inline-block;
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--success);
+  background: rgba(52,211,153,0.1);
+  border: 1px solid rgba(52,211,153,0.25);
+  padding: 5px 16px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+.solution-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 5vw, 58px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+.solution-sub {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 54ch;
+  margin: 0 auto 60px;
+}
+
+/* ─── Cycling messages ────────────────────────────────────────────────── */
+.message-cycle-wrapper {
+  max-width: 640px; margin: 0 auto 80px;
+  position: relative;
+}
+.message-cycle-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--accent-lt);
+  margin-bottom: 12px;
+}
+.message-bubble {
+  background: var(--card);
+  border: 1px solid rgba(91,82,232,0.25);
+  border-radius: 16px;
+  padding: 20px 24px;
+  position: relative; min-height: 80px;
+  display: flex; align-items: center;
+}
+.message-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.6;
+  text-align: left;
+  transition: opacity 0.4s ease;
+}
+.message-text.fading { opacity: 0; }
+.message-badge {
+  position: absolute; top: -10px; right: 16px;
+  font-family: 'Syne', sans-serif;
+  font-size: 10px; font-weight: 700;
+  background: rgba(91,82,232,0.9);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.5px;
+}
+.message-dots {
+  display: flex; gap: 6px;
+  justify-content: center;
+  margin-top: 14px;
+}
+.message-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s;
+}
+.message-dot.active { background: var(--accent-lt); }
+
+/* ─── How it works ────────────────────────────────────────────────────── */
+#how {
+  background: var(--surface);
+  padding: 100px 0;
+}
+.how-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  color: var(--text);
+  text-align: center;
+}
+.how-sub {
+  color: var(--muted); font-size: 17px;
+  max-width: 50ch; margin: 0 auto 64px;
+  text-align: center;
+}
+.steps-flow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+}
+.steps-flow::before {
+  content: '';
+  position: absolute;
+  top: 28px; left: calc(12.5% + 16px);
+  right: calc(12.5% + 16px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-lt), var(--accent));
+  opacity: 0.35;
+}
+.step-card {
+  text-align: center;
+  padding: 0 16px;
+}
+.step-num-circle {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-lt));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 20px; font-weight: 800;
+  color: #fff;
+  margin: 0 auto 20px;
+  position: relative; z-index: 1;
+  box-shadow: 0 0 0 6px var(--surface), 0 0 30px var(--accent-glow);
+}
+.step-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ─── Features ────────────────────────────────────────────────────────── */
+#features {
+  background: var(--void);
+  padding: 100px 0;
+}
+.features-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 56px;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.feature-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.feature-card:hover {
+  border-color: rgba(91,82,232,0.4);
+  transform: translateY(-3px);
+}
+.feature-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin-bottom: 16px;
+  background: rgba(91,82,232,0.12);
+}
+.feature-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.feature-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* ─── Ethics badge ────────────────────────────────────────────────────── */
+.ethics-banner {
+  margin-top: 32px;
+  background: rgba(52,211,153,0.07);
+  border: 1px solid rgba(52,211,153,0.2);
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: flex; align-items: center; gap: 20px;
+}
+.ethics-icon { font-size: 28px; flex-shrink: 0; }
+.ethics-body p:first-child {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 14px;
+  color: var(--success);
+  margin-bottom: 4px;
+}
+.ethics-body p:last-child { font-size: 13px; color: var(--muted); max-width: none; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CTA
+═══════════════════════════════════════════════════════════════════════ */
+#cta {
+  background: var(--surface);
+  padding: 120px 0;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+#cta::before {
+  content: '';
+  position: absolute;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: var(--accent-glow);
+  filter: blur(120px);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+.cta-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 5vw, 62px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  color: var(--text);
+  margin-bottom: 16px;
+  position: relative; z-index: 1;
+}
+.cta-sub {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 48ch;
+  margin: 0 auto 40px;
+  position: relative; z-index: 1;
+}
+.cta-btn-wrap { position: relative; z-index: 1; }
+.cta-main-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent), var(--accent-lt));
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 18px;
+  padding: 20px 52px;
+  border-radius: 100px;
+  border: none; cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 16px 48px var(--accent-glow);
+  letter-spacing: 0.2px;
+}
+.cta-main-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 24px 64px var(--accent-glow);
+}
+.cta-note {
+  margin-top: 16px;
+  font-size: 13px; color: var(--muted2);
+  position: relative; z-index: 1;
+}
+
+/* ─── Footer ──────────────────────────────────────────────────────────── */
+footer {
+  background: var(--void);
+  border-top: 1px solid var(--border);
+  padding: 32px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-brand {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 16px;
+  color: var(--text);
+}
+.footer-brand span { color: var(--accent-lt); }
+.footer-note { font-size: 13px; color: var(--muted2); }
+
+/* ─── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .workflow-compare { grid-template-columns: 1fr; }
+  .workflow-vs      { display: none; }
+  .agitate-grid     { grid-template-columns: 1fr; }
+  .steps-flow       { grid-template-columns: 1fr 1fr; }
+  .steps-flow::before { display: none; }
+  .features-grid    { grid-template-columns: 1fr; }
+  .insight-card     { padding: 32px 24px; }
+  .ethics-banner    { flex-direction: column; gap: 12px; }
+  footer { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo syne">Zaram <span>LeadFlow</span></div>
+  <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+    Get Access
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-eyebrow">
+    <span class="eyebrow-dot"></span>
+    Instagram Cold DM · AI-Powered · Human Sends
+  </div>
+
+  <h1 class="hero-headline">
+    Cold DMs shouldn't feel like<br>
+    a <span class="accent-word">second job.</span>
+  </h1>
+
+  <p class="hero-sub">
+    Zaram LeadFlow pulls your leads straight from Google Sheets, writes a unique opener for each one, and drops it into Instagram's DM box — you review it and press Send. That's it.
+  </p>
+
+  <div class="hero-ctas">
+    <button class="btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+      Get Early Access →
+    </button>
+    <a class="btn-ghost" href="#how">
+      See how it works ↓
+    </a>
+  </div>
+
+  <!-- Extension mockup -->
+  <div class="mockup-wrapper">
+    <div class="ext-shell">
+      <div class="ext-topbar">
+        <div class="ext-topbar-inner">
+          <div class="ext-brand">Zaram LeadFlow</div>
+          <div style="font-size:10px;color:#9ca3af;">⚙</div>
+        </div>
+        <div class="ext-nav">
+          <div class="ext-nav-item">Lists</div>
+          <div class="ext-nav-item active">Session</div>
+          <div class="ext-nav-item">History</div>
+          <div class="ext-nav-item">Stats</div>
+          <div class="ext-nav-item">Settings</div>
+        </div>
+      </div>
+
+      <div class="ext-body">
+        <div class="ext-campaign-bar">
+          <div>
+            <div class="ext-campaign-label">Campaign</div>
+            <div class="ext-campaign-name">NYC WELLNESS CLINICS</div>
+          </div>
+          <div class="ext-pause-btn">Pause</div>
+        </div>
+
+        <div class="ext-stats">
+          <div class="ext-stat">
+            <div class="ext-stat-val">3/20</div>
+            <div class="ext-stat-lbl">Sent</div>
+          </div>
+          <div class="ext-stat">
+            <div class="ext-stat-val zero">0</div>
+            <div class="ext-stat-lbl">Skipped</div>
+          </div>
+          <div class="ext-stat">
+            <div class="ext-stat-val">17</div>
+            <div class="ext-stat-lbl">Remaining</div>
+          </div>
+          <div class="ext-stat">
+            <div class="ext-stat-val zero">04:22</div>
+            <div class="ext-stat-lbl">Elapsed</div>
+          </div>
+        </div>
+
+        <div class="ext-selectors">
+          <div class="ext-selector-row">
+            <div class="ext-selector-label" style="font-size:9px;color:#9ca3af;">Template</div>
+            <div class="ext-selector-val">Health &amp; Wellness — Services</div>
+          </div>
+          <div class="ext-selector-row">
+            <div class="ext-selector-label" style="font-size:9px;color:#9ca3af;">Framework</div>
+            <div class="ext-selector-val">Curiosity Hook</div>
+          </div>
+        </div>
+
+        <div class="ext-lead-card">
+          <div class="ext-lead-name">Revive Chiro &amp; Wellness</div>
+          <div class="ext-lead-handle">@revivechiro_nyc</div>
+          <div class="ext-lead-meta">
+            <span>📍 Brooklyn, NY</span>
+            <span><span class="ext-star">★</span> 4.9 · 183 reviews</span>
+          </div>
+          <div class="ext-open-btn">Open Instagram Profile (Alt+O)</div>
+        </div>
+
+        <div class="ext-validation">
+          <div class="ext-validation-title">✓ Likely correct profile</div>
+          <div class="ext-validation-sub">Username matches · Display name matches business</div>
+        </div>
+
+        <div class="ext-message-box">
+          <div class="ext-msg-header">
+            <span>AI MESSAGE</span>
+            <span style="color:#9ca3af;font-weight:400;">Used: display name, category</span>
+          </div>
+          <div class="ext-msg-text" id="hero-msg">
+            Came across Revive Chiro and wanted to ask — what treatments do you get the most requests for right now?<span class="cursor"></span>
+          </div>
+          <div class="ext-msg-footer">
+            <span>96 chars</span>
+            <span style="color:#4F46E5;font-weight:600;cursor:pointer;">Copy</span>
+          </div>
+        </div>
+
+        <div class="ext-btn-row">
+          <div class="ext-btn">↻ Regenerate (Alt+R)</div>
+          <div class="ext-btn" style="color:#4F46E5;border-color:#e0e7ff;">⤵ Insert (Alt+I)</div>
+        </div>
+        <div class="ext-btn-primary">✓ SENT &amp; NEXT &nbsp; (Alt+S)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     PAIN
+════════════════════════════════════════════════════════════════════ -->
+<section id="pain">
+  <div class="container">
+    <div class="reveal">
+      <div class="pain-eyebrow">The Problem</div>
+      <h2 class="pain-headline">This is your Monday morning<br>without LeadFlow.</h2>
+      <p class="pain-sub">Every freelancer doing cold outreach knows this routine. It eats your hours, kills your energy, and still barely works.</p>
+    </div>
+
+    <div class="workflow-compare reveal">
+      <!-- BEFORE -->
+      <div class="workflow-col">
+        <div class="workflow-title pain-title">Without LeadFlow</div>
+        <div class="workflow-steps">
+          <div class="step-item pain-step">
+            <div class="step-icon pain-icon">📊</div>
+            <div class="step-text">
+              <strong>Open Google Sheets</strong>
+              Scroll to find the next uncontacted lead
+            </div>
+          </div>
+          <div class="step-item pain-step">
+            <div class="step-icon pain-icon">📋</div>
+            <div class="step-text">
+              <strong>Copy the IG handle</strong>
+              Manually, row by row, every single time
+            </div>
+          </div>
+          <div class="step-item pain-step">
+            <div class="step-icon pain-icon">🔍</div>
+            <div class="step-text">
+              <strong>Search Instagram</strong>
+              Hope you find the right account (not the one with 12 followers)
+            </div>
+          </div>
+          <div class="step-item pain-step">
+            <div class="step-icon pain-icon">😰</div>
+            <div class="step-text">
+              <strong>Stare at a blank DM box</strong>
+              Try to write something that doesn't sound desperate
+            </div>
+          </div>
+          <div class="step-item pain-step">
+            <div class="step-icon pain-icon">📤</div>
+            <div class="step-text">
+              <strong>Send the same-ish message</strong>
+              Because you're tired and it's the 20th one today
+            </div>
+          </div>
+          <div class="step-item pain-step">
+            <div class="step-icon pain-icon">🦗</div>
+            <div class="step-text">
+              <strong>Get ignored (or flagged)</strong>
+              Repeat tomorrow. And the day after.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-vs">
+        <div class="vs-badge">VS</div>
+      </div>
+
+      <!-- AFTER -->
+      <div class="workflow-col">
+        <div class="workflow-title win-title">With LeadFlow</div>
+        <div class="workflow-steps">
+          <div class="step-item win-step">
+            <div class="step-icon win-icon">🔗</div>
+            <div class="step-text">
+              <strong>Open the extension</strong>
+              Your Google Sheet is already connected
+            </div>
+          </div>
+          <div class="step-item win-step">
+            <div class="step-icon win-icon">⚡</div>
+            <div class="step-text">
+              <strong>Next lead loads automatically</strong>
+              Instagram profile opens in the background
+            </div>
+          </div>
+          <div class="step-item win-step">
+            <div class="step-icon win-icon">🤖</div>
+            <div class="step-text">
+              <strong>AI writes a unique opener</strong>
+              Different wording every time — never triggers spam filters
+            </div>
+          </div>
+          <div class="step-item win-step">
+            <div class="step-icon win-icon">💬</div>
+            <div class="step-text">
+              <strong>Click Insert</strong>
+              Message drops into Instagram's DM box
+            </div>
+          </div>
+          <div class="step-item win-step">
+            <div class="step-icon win-icon">✅</div>
+            <div class="step-text">
+              <strong>You review and press Send</strong>
+              You stay in control. Always.
+            </div>
+          </div>
+          <div class="step-item win-step">
+            <div class="step-icon win-icon">💰</div>
+            <div class="step-text">
+              <strong>Next lead in seconds</strong>
+              Sheet updates automatically. Keep moving.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     AGITATE
+════════════════════════════════════════════════════════════════════ -->
+<section id="agitate">
+  <div class="container">
+    <div class="agitate-grid">
+      <div class="stat-card reveal">
+        <div class="stat-num">4h</div>
+        <div class="stat-label">spent on manual outreach every week — just to reach 30 people</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-1">
+        <div class="stat-num">&lt;2%</div>
+        <div class="stat-label">reply rate on copy-paste DMs that Instagram can pattern-match in seconds</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-2">
+        <div class="stat-num">0</div>
+        <div class="stat-label">deals closed from a pitch DM. Zero. Nobody buys from a stranger's first message.</div>
+      </div>
+    </div>
+
+    <div class="agitate-quote reveal">
+      <blockquote>
+        "You're not bad at sales. Your first message is just terrible — and it's not your fault."
+      </blockquote>
+      <p>
+        The standard freelancer cold DM ("Hi, I noticed you could use help with X, I offer Y, want to hop on a call?") gets ignored because it asks for commitment before it earns any trust. The business didn't ask for your pitch. They don't know you. Why would they reply?
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     INSIGHT
+════════════════════════════════════════════════════════════════════ -->
+<section id="insight">
+  <div class="container">
+    <div class="insight-card reveal">
+      <div class="insight-label">The Strategy</div>
+      <h2 class="insight-headline">Don't pitch first.<br>Ask first. Win later.</h2>
+      <p class="insight-body">
+        The businesses that reply to cold DMs have one thing in common: the message made them feel like a human was genuinely curious — not hunting for a sale. A well-crafted question about their services, their business, or their customers gets a reply because it takes 10 seconds to answer and costs them nothing. That reply opens the door. Then you walk through it.
+      </p>
+      <div class="insight-steps">
+        <div class="insight-step">
+          <div class="insight-step-num">1</div>
+          <div class="insight-step-body">
+            <strong>Send a genuine inquiry</strong>
+            <span>LeadFlow writes a unique question about their business — what they offer, what makes them different. Not a pitch.</span>
+          </div>
+        </div>
+        <div class="insight-step">
+          <div class="insight-step-num">2</div>
+          <div class="insight-step-body">
+            <strong>They reply because it's easy</strong>
+            <span>Businesses love talking about themselves. A simple question gets answered. Now you're in a conversation.</span>
+          </div>
+        </div>
+        <div class="insight-step">
+          <div class="insight-step-num">3</div>
+          <div class="insight-step-body">
+            <strong>Now you pitch — and it lands</strong>
+            <span>You're no longer a stranger. You showed curiosity. They're warm. That's when you introduce what you do. And it works.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SOLUTION
+════════════════════════════════════════════════════════════════════ -->
+<section id="solution">
+  <div class="container">
+    <div class="reveal">
+      <div class="solution-eyebrow">The Solution</div>
+      <h2 class="solution-headline">Meet Zaram LeadFlow.</h2>
+      <p class="solution-sub">
+        The Chrome extension that turns your Google Sheet into a full cold-DM workflow — inquiry-first, AI-written, human-sent.
+      </p>
+    </div>
+
+    <!-- Cycling messages -->
+    <div class="message-cycle-wrapper reveal">
+      <div class="message-cycle-label">Every message is uniquely written — zero repetition</div>
+      <div class="message-bubble">
+        <div class="message-text" id="cycle-msg">
+          Came across your page and had to ask — what services does your practice specialize in most?
+        </div>
+        <div class="message-badge">AI Generated</div>
+      </div>
+      <div class="message-dots" id="msg-dots">
+        <div class="message-dot active"></div>
+        <div class="message-dot"></div>
+        <div class="message-dot"></div>
+        <div class="message-dot"></div>
+        <div class="message-dot"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     HOW IT WORKS
+════════════════════════════════════════════════════════════════════ -->
+<section id="how">
+  <div class="container">
+    <h2 class="how-headline reveal">How it works</h2>
+    <p class="how-sub reveal">From lead list to replied-to conversation — in minutes, not hours.</p>
+
+    <div class="steps-flow">
+      <div class="step-card reveal">
+        <div class="step-num-circle">1</div>
+        <div class="step-title">Connect your Sheet</div>
+        <p class="step-desc">Sign in with Google. Pick your spreadsheet. LeadFlow reads your lead list — Instagram handles, names, locations — and queues them up.</p>
+      </div>
+      <div class="step-card reveal reveal-delay-1">
+        <div class="step-num-circle">2</div>
+        <div class="step-title">AI writes the opener</div>
+        <p class="step-desc">For every lead, GPT writes a fresh, unique question. Different structure. Different wording. Never the same message twice.</p>
+      </div>
+      <div class="step-card reveal reveal-delay-2">
+        <div class="step-num-circle">3</div>
+        <div class="step-title">One click to insert</div>
+        <p class="step-desc">The message drops straight into Instagram's DM composer. You read it, tweak it if you want, then press Send yourself.</p>
+      </div>
+      <div class="step-card reveal reveal-delay-3">
+        <div class="step-num-circle">4</div>
+        <div class="step-title">Track &amp; close</div>
+        <p class="step-desc">Sheet updates automatically. Replies get flagged. Quick-reply templates ready for your follow-up pitch. Analytics show what's working.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     FEATURES
+════════════════════════════════════════════════════════════════════ -->
+<section id="features">
+  <div class="container">
+    <h2 class="features-headline reveal">Everything you need.<br>Nothing you don't.</h2>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Google Sheets Sync</div>
+        <p class="feature-desc">Connect any spreadsheet. LeadFlow reads your lead data live and writes back outreach status, sent timestamps, and reply notes automatically.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-title">AI Message Generation</div>
+        <p class="feature-desc">GPT-4 writes a unique inquiry for every lead using their business name, Instagram profile, category, and bio. Never the same message twice.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">Copywriting Frameworks</div>
+        <p class="feature-desc">Choose AIDA, PAS, Curiosity Hook, Feature→Benefit, and more. The AI structures each message around your chosen framework automatically.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">💬</div>
+        <div class="feature-title">Reply Detection</div>
+        <p class="feature-desc">LeadFlow watches your DM threads. When a business replies, you get an instant alert right in the extension — no more checking Instagram manually.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Quick-Reply Templates</div>
+        <p class="feature-desc">Save your best follow-up pitches as one-click templates. When they reply, you're ready. Insert your pitch in one click and close the deal.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon">📈</div>
+        <div class="feature-title">Analytics &amp; A/B Testing</div>
+        <p class="feature-desc">Track reply rates per framework, per campaign, and per template. Run A/B tests between copywriting approaches and double down on what works.</p>
+      </div>
+    </div>
+
+    <div class="ethics-banner reveal">
+      <div class="ethics-icon">🛡️</div>
+      <div class="ethics-body">
+        <p>You always press Send. Always.</p>
+        <p>LeadFlow never sends a message automatically. It writes, you review, you decide. This isn't a bot — it's an assistant. That's why it works long-term and stays within Instagram's terms of use.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     CTA
+════════════════════════════════════════════════════════════════════ -->
+<section id="cta">
+  <div class="container">
+    <h2 class="cta-headline reveal">Stop sending messages<br>nobody reads.</h2>
+    <p class="cta-sub reveal reveal-delay-1">
+      Join freelancers using Zaram LeadFlow to start real conversations — and close real deals — on Instagram.
+    </p>
+    <div class="cta-btn-wrap reveal reveal-delay-2">
+      <a class="cta-main-btn" href="mailto:johnogbonnae@gmail.com?subject=Zaram LeadFlow Access">
+        Get Early Access →
+      </a>
+      <p class="cta-note">Chrome extension · Works with any Google Sheet · You press Send</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Footer ───────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-brand">Zaram <span>LeadFlow</span></div>
+  <div class="footer-note">Built for freelancers who close deals, not just send messages.</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     JS
+════════════════════════════════════════════════════════════════════ -->
+<script>
+/* Scroll reveal */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => io.observe(el));
+
+/* Cycling messages */
+const messages = [
+  "Came across your page and had to ask — what services does your practice specialize in most?",
+  "Hey, quick one — what kind of clients does your firm work with typically?",
+  "Just spotted your profile. What's the most popular treatment you offer right now?",
+  "Noticed your feed and got curious — what makes your gym different from the others in the area?",
+  "Love what you've built here. What's the service your customers ask for most often?",
+];
+let msgIdx = 0;
+const msgEl = document.getElementById('cycle-msg');
+const dots = document.querySelectorAll('.message-dot');
+
+function cycleMessage() {
+  msgEl.classList.add('fading');
+  setTimeout(() => {
+    msgIdx = (msgIdx + 1) % messages.length;
+    msgEl.textContent = messages[msgIdx];
+    dots.forEach((d, i) => d.classList.toggle('active', i === msgIdx));
+    msgEl.classList.remove('fading');
+  }, 400);
+}
+setInterval(cycleMessage, 3200);
+</script>
+</body>
+</html>

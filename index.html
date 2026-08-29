@@ -2931,23 +2931,11 @@ function startPaystack() {
       onClose: function() { resetBtn(); },
       callback: function(response) {
         fbq('track', 'Purchase', { value: 5.00, currency: 'USD' });
-        var payerEmail = document.getElementById('payEmail') ? document.getElementById('payEmail').value : '';
-        fetch('https://zaramleadflow-production.up.railway.app/api/verify-payment', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ reference: response.reference, email: payerEmail })
-        }).catch(function() {});
         closePayModal();
         resetBtn();
-        document.body.innerHTML = '<div style="min-height:100vh;background:#040D1C;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;text-align:center;padding:40px">' +
-          '<div>' +
-          '<div style="font-size:52px;margin-bottom:20px">&#9989;</div>' +
-          '<h2 style="font-family:Syne,sans-serif;font-size:28px;color:#E8B923;margin-bottom:12px">Payment received!</h2>' +
-          '<p style="color:#9aa0ae;font-size:16px;max-width:420px;margin:0 auto 24px">License key is on its way to <strong style="color:#fff">' + email + '</strong>.<br>Taking you to the setup guide&#8230;</p>' +
-          '<div style="width:40px;height:40px;border:3px solid #1A6BFF;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto"></div>' +
-          '<style>@keyframes spin{to{transform:rotate(360deg)}}</style>' +
-          '</div></div>';
-        setTimeout(function(){ window.location.href = 'setup.html'; }, 2500);
+        // Redirect immediately to setup page with email+ref — setup page fetches and shows the license key
+        var params = new URLSearchParams({ email: email, ref: response.reference });
+        window.location.href = 'setup.html?' + params.toString();
       }
     });
     handler.openIframe();

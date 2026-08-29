@@ -111,6 +111,53 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   }
 </script>
 
+<!-- License key banner — shown immediately after purchase -->
+<div id="licenseKeyBanner" style="display:none;background:#040D1C;border-bottom:2px solid #E8B923;padding:28px 24px;text-align:center;">
+  <p style="color:#9aa0ae;font-size:13px;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">Your License Key</p>
+  <div style="display:inline-block;background:#102240;border:1px solid #1A6BFF;border-radius:8px;padding:16px 32px;margin-bottom:10px;">
+    <span id="licenseKeyDisplay" style="font-family:monospace;font-size:22px;color:#E8B923;letter-spacing:3px;font-weight:bold;"></span>
+  </div>
+  <p style="color:#a3d977;font-size:13px;margin-bottom:4px;">&#128386; Copy and save this key — you&#8217;ll need it in Step 3 below.</p>
+  <p style="color:#6b7280;font-size:12px;">A copy has also been sent to <span id="licenseKeyEmail" style="color:#9aa0ae;"></span></p>
+</div>
+<script>
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var ref = params.get('ref');
+  var email = params.get('email');
+  if (!ref || !email) return;
+
+  var banner = document.getElementById('licenseKeyBanner');
+  var keyEl = document.getElementById('licenseKeyDisplay');
+  var emailEl = document.getElementById('licenseKeyEmail');
+
+  emailEl.textContent = email;
+  keyEl.textContent = 'Loading…';
+  banner.style.display = 'block';
+
+  fetch('https://zaramleadflow-production.up.railway.app/api/verify-payment', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ reference: ref, email: email })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data && data.licenseKey) {
+      keyEl.textContent = data.licenseKey;
+    } else {
+      keyEl.textContent = 'Check your email';
+      keyEl.style.fontSize = '14px';
+      keyEl.style.color = '#9aa0ae';
+    }
+  })
+  .catch(function() {
+    keyEl.textContent = 'Check your email';
+    keyEl.style.fontSize = '14px';
+    keyEl.style.color = '#9aa0ae';
+  });
+})();
+</script>
+
 <div class="setup-hero">
   <div class="setup-eyebrow">You&#8217;re in &mdash; let&#8217;s get you set up</div>
   <h1 class="setup-title">Install IGDMFlow<br>in <span>under 3 minutes.</span></h1>

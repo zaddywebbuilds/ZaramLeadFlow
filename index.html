@@ -1552,10 +1552,11 @@ footer {
 .ps-modal p { color: #9aa0ae; font-size: 14px; margin-bottom: 24px; }
 .ps-email-input {
   width: 100%; padding: 14px 16px; border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.15); background: var(--surface);
-  color: #fff; font-size: 15px; margin-bottom: 16px; box-sizing: border-box;
+  border: 2px solid var(--border-input, rgba(100,140,220,0.5)); background: var(--surface);
+  color: var(--text); font-size: 15px; margin-bottom: 16px; box-sizing: border-box;
 }
-.ps-email-input:focus { outline: none; border-color: var(--accent); }
+.ps-email-input::placeholder { color: var(--text-muted, #8896a8); }
+.ps-email-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,107,255,0.18); }
 .ps-pay-btn {
   width: 100%; padding: 15px; background: var(--success); color: #000;
   border: none; border-radius: 8px;
@@ -1631,10 +1632,11 @@ footer {
 .ps-modal p { color: #9aa0ae; font-size: 14px; margin-bottom: 24px; }
 .ps-email-input {
   width: 100%; padding: 14px 16px; border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.15); background: var(--surface);
-  color: #fff; font-size: 15px; margin-bottom: 16px; box-sizing: border-box;
+  border: 2px solid var(--border-input, rgba(100,140,220,0.5)); background: var(--surface);
+  color: var(--text); font-size: 15px; margin-bottom: 16px; box-sizing: border-box;
 }
-.ps-email-input:focus { outline: none; border-color: var(--accent); }
+.ps-email-input::placeholder { color: var(--text-muted, #8896a8); }
+.ps-email-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,107,255,0.18); }
 .ps-pay-btn {
   width: 100%; padding: 15px; background: var(--success); color: #000;
   border: none; border-radius: 8px;

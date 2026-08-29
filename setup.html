@@ -407,5 +407,50 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   </div>
 </div>
 
+<!-- Lost your key section -->
+<div style="background:#081628;border-top:1px solid rgba(255,255,255,0.07);padding:48px 24px;text-align:center;">
+  <p style="font-family:sans-serif;color:#9aa0ae;font-size:14px;margin-bottom:6px;">Bought but can't find your key?</p>
+  <p style="font-family:sans-serif;color:#6b7280;font-size:12px;margin-bottom:20px;">Enter the email you paid with and we'll resend it.</p>
+  <div style="max-width:380px;margin:0 auto;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+    <input id="resendEmail" type="email" placeholder="Email you paid with"
+      style="flex:1;min-width:200px;padding:12px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:#102240;color:#fff;font-size:14px;outline:none;" />
+    <button onclick="resendKey()" id="resendBtn"
+      style="padding:12px 22px;background:#B08A57;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;">
+      Resend Key
+    </button>
+  </div>
+  <p id="resendMsg" style="font-family:sans-serif;font-size:13px;margin-top:12px;min-height:18px;color:#a3d977;"></p>
+</div>
+<script>
+async function resendKey() {
+  var email = document.getElementById('resendEmail').value.trim();
+  var btn = document.getElementById('resendBtn');
+  var msg = document.getElementById('resendMsg');
+  if (!email) { msg.style.color='#f87171'; msg.textContent='Please enter your email.'; return; }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  msg.textContent = '';
+  try {
+    var r = await fetch('https://zaramleadflow-production.up.railway.app/api/resend-license', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ email: email })
+    });
+    var d = await r.json();
+    if (r.ok) {
+      msg.style.color = '#a3d977';
+      msg.textContent = 'Done! Check your inbox (and spam folder).';
+    } else {
+      msg.style.color = '#f87171';
+      msg.textContent = d.error || 'No purchase found for that email.';
+    }
+  } catch {
+    msg.style.color = '#f87171';
+    msg.textContent = 'Could not reach server. Try again shortly.';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Resend Key';
+  }
+}
+</script>
+
 </body>
 </html>

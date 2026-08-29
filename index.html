@@ -2810,6 +2810,12 @@ function startPaystack() {
       label: 'ZaramLeadFlow Monthly',
       onClose: function() { resetBtn(); },
       callback: function(response) {
+        var payerEmail = document.getElementById('payEmail') ? document.getElementById('payEmail').value : '';
+        fetch('https://zaramleadflow-production.up.railway.app/api/verify-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reference: response.reference, email: payerEmail })
+        }).catch(function() {});
         closePayModal();
         resetBtn();
         document.body.innerHTML = '<div style="min-height:100vh;background:#040D1C;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;text-align:center;padding:40px">' +

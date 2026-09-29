@@ -135,7 +135,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   keyEl.textContent = 'Loading…';
   banner.style.display = 'block';
 
-  fetch('http://79.143.189.154:3001/api/verify-payment', {
+  fetch('https://api.igdmflow.online/api/verify-payment', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ reference: ref, email: email })
@@ -430,7 +430,7 @@ async function resendKey() {
   btn.disabled = true; btn.textContent = 'Sending…';
   msg.textContent = '';
   try {
-    var r = await fetch('http://79.143.189.154:3001/api/resend-license', {
+    var r = await fetch('https://api.igdmflow.online/api/resend-license', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ email: email })
